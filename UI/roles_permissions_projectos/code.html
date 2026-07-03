@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Roles &amp; Permissions | ProjectOS</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-container": "#e5eeff",
+                    "on-secondary-fixed": "#2a1700",
+                    "on-secondary": "#ffffff",
+                    "secondary-container": "#fea619",
+                    "tertiary-fixed": "#6ffbbe",
+                    "outline": "#767586",
+                    "primary-fixed": "#e1e0ff",
+                    "on-tertiary-fixed-variant": "#005236",
+                    "on-tertiary-fixed": "#002113",
+                    "on-surface": "#0b1c30",
+                    "on-tertiary": "#ffffff",
+                    "outline-variant": "#c7c4d7",
+                    "on-secondary-container": "#684000",
+                    "primary-fixed-dim": "#c0c1ff",
+                    "on-surface-variant": "#464554",
+                    "surface-tint": "#494bd6",
+                    "secondary": "#855300",
+                    "surface-container-highest": "#d3e4fe",
+                    "on-error-container": "#93000a",
+                    "tertiary": "#006c49",
+                    "tertiary-fixed-dim": "#4edea3",
+                    "on-primary-container": "#fffbff",
+                    "surface-container-high": "#dce9ff",
+                    "secondary-fixed": "#ffddb8",
+                    "tertiary-container": "#00885d",
+                    "inverse-surface": "#213145",
+                    "surface": "#f8f9ff",
+                    "surface-container-low": "#eff4ff",
+                    "primary": "#4648d4",
+                    "surface-container-lowest": "#ffffff",
+                    "primary-container": "#6063ee",
+                    "on-background": "#0b1c30",
+                    "on-primary": "#ffffff",
+                    "surface-bright": "#f8f9ff",
+                    "inverse-on-surface": "#eaf1ff",
+                    "on-primary-fixed-variant": "#2f2ebe",
+                    "on-primary-fixed": "#07006c",
+                    "surface-dim": "#cbdbf5",
+                    "on-tertiary-container": "#000703",
+                    "inverse-primary": "#c0c1ff",
+                    "error-container": "#ffdad6",
+                    "on-secondary-fixed-variant": "#653e00",
+                    "secondary-fixed-dim": "#ffb95f",
+                    "on-error": "#ffffff",
+                    "background": "#f8f9ff",
+                    "surface-variant": "#d3e4fe",
+                    "error": "#ba1a1a"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "sm": "8px",
+                    "md": "16px",
+                    "margin-mobile": "16px",
+                    "margin-desktop": "40px",
+                    "xs": "4px",
+                    "xl": "32px",
+                    "lg": "24px",
+                    "gutter": "24px",
+                    "unit": "8px"
+            },
+            "fontFamily": {
+                    "display-lg": ["Inter"],
+                    "body-md": ["Inter"],
+                    "headline-md": ["Inter"],
+                    "headline-lg-mobile": ["Inter"],
+                    "body-lg": ["Inter"],
+                    "label-sm": ["Inter"],
+                    "label-md": ["Inter"],
+                    "headline-lg": ["Inter"]
+            },
+            "fontSize": {
+                    "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                    "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                    "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                    "headline-lg-mobile": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                    "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                    "label-sm": ["12px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                    "label-md": ["14px", { "lineHeight": "20px", "fontWeight": "500" }],
+                    "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600" }]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .indigo-gradient {
+            background: linear-gradient(135deg, #4648d4 0%, #6063ee 100%);
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #c7c4d7;
+            border-radius: 10px;
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        details > summary { list-style: none; }
+        details > summary::-webkit-details-marker { display: none; }
+    </style>
+</head>
+<body class="bg-surface text-on-surface">
+<!-- Sidebar Navigation Shell -->
+<aside class="fixed left-0 top-0 h-full w-[280px] bg-surface dark:bg-inverse-surface border-r border-outline-variant dark:border-outline flex flex-col p-md z-50">
+<div class="mb-xl px-4">
+<h1 class="font-headline-md text-headline-md font-bold text-primary dark:text-primary-fixed-dim">ProjectOS</h1>
+<p class="text-label-md font-label-md text-on-surface-variant">Enterprise Plan</p>
+</div>
+<nav class="flex-1 space-y-2">
+<a class="flex items-center gap-3 text-on-surface-variant hover:bg-surface-variant hover:text-on-surface rounded-lg px-4 py-3 transition-all duration-200 ease-in-out hover:translate-x-1 font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined">dashboard</span> Dashboard
+            </a>
+<a class="flex items-center gap-3 text-on-surface-variant hover:bg-surface-variant hover:text-on-surface rounded-lg px-4 py-3 transition-all duration-200 ease-in-out hover:translate-x-1 font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined">folder_open</span> Projects
+            </a>
+<a class="flex items-center gap-3 text-on-surface-variant hover:bg-surface-variant hover:text-on-surface rounded-lg px-4 py-3 transition-all duration-200 ease-in-out hover:translate-x-1 font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined">assignment</span> Tasks
+            </a>
+<a class="flex items-center gap-3 text-on-surface-variant hover:bg-surface-variant hover:text-on-surface rounded-lg px-4 py-3 transition-all duration-200 ease-in-out hover:translate-x-1 font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined">group</span> Team
+            </a>
+<!-- Active State: Settings -->
+<a class="flex items-center gap-3 bg-primary-container text-on-primary-container rounded-lg px-4 py-3 transition-all duration-200 ease-in-out hover:translate-x-1 font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined">settings</span> Settings
+            </a>
+</nav>
+<div class="mt-auto pt-md border-t border-outline-variant">
+<button class="w-full indigo-gradient text-white rounded-lg px-4 py-3 font-label-md text-label-md flex items-center justify-center gap-2 hover:opacity-90 transition-opacity">
+<span class="material-symbols-outlined">add</span> New Project
+            </button>
+<div class="flex items-center gap-3 mt-lg px-2">
+<img class="w-10 h-10 rounded-full border-2 border-primary-fixed" data-alt="A professional headshot of a senior project manager in a bright, modern office setting. High-quality corporate photography style, soft focus background, professional attire, warm natural lighting, part of a clean minimalist UI." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAzZQ29c29RiavFrF7qKiCNh81_eapQmXWwvsVlmnmvTwBYZn_i-lE6q61S9Kwxl653qeXazufdwgN65IjiQM2gd1nPY9FQIQ2YCNnwuzZ5D45ECJoVjBuYzzpbZ-2d5kk2J-dm5TWI5UBoUquD50likHrODwQrS0yGavxJUD2lRwQ6oCnNik2TxfhY8j6lb4U69DGiqYqrb2yASqY8RvJ6wohqujHOjdYNxWNSERLTTO2DzQo0YfndjCtm26GWCdhnEOH6oxQ5_wk"/>
+<div class="overflow-hidden">
+<p class="font-label-md text-label-md font-bold truncate">Alex Sterling</p>
+<p class="text-xs text-on-surface-variant truncate">alex@projectos.com</p>
+</div>
+</div>
+</div>
+</aside>
+<!-- Top Bar Navigation -->
+<header class="ml-[280px] flex justify-between items-center h-16 px-lg sticky top-0 z-40 bg-surface/80 backdrop-blur-md border-b border-outline-variant">
+<div class="flex items-center gap-lg">
+<div class="relative w-80">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
+<input class="w-full pl-10 pr-4 py-2 bg-surface-container-lowest border border-outline-variant rounded-lg text-label-md focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all" placeholder="Search tasks, roles, or members..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-md">
+<button class="p-2 text-on-surface-variant hover:bg-surface-container-low rounded-full transition-colors relative">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-error rounded-full"></span>
+</button>
+<button class="p-2 text-on-surface-variant hover:bg-surface-container-low rounded-full transition-colors">
+<span class="material-symbols-outlined">help_outline</span>
+</button>
+<div class="h-8 w-[1px] bg-outline-variant mx-2"></div>
+<div class="flex items-center gap-2">
+<span class="text-label-md font-label-md text-primary font-bold">ProjectOS</span>
+</div>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="ml-[280px] p-margin-desktop min-h-[calc(100vh-64px)]">
+<!-- Settings Header & Top Level Tabs -->
+<div class="max-w-6xl mx-auto">
+<div class="flex items-end justify-between mb-xl">
+<div>
+<h2 class="font-headline-lg text-headline-lg text-on-surface">Settings</h2>
+<p class="font-body-md text-body-md text-on-surface-variant mt-1">Manage your workspace configuration and member access.</p>
+</div>
+<div class="flex bg-surface-container-low p-1 rounded-xl">
+<button class="px-6 py-2 text-label-md font-label-md rounded-lg text-on-surface-variant hover:text-on-surface transition-colors">Workspace</button>
+<button class="px-6 py-2 text-label-md font-label-md rounded-lg bg-surface-container-lowest text-primary shadow-sm">Account Settings</button>
+<button class="px-6 py-2 text-label-md font-label-md rounded-lg text-on-surface-variant hover:text-on-surface transition-colors">Integrations</button>
+<button class="px-6 py-2 text-label-md font-label-md rounded-lg text-on-surface-variant hover:text-on-surface transition-colors">Billing</button>
+</div>
+</div>
+<!-- Inner Tabs (Sub-navigation) -->
+<div class="flex border-b border-outline-variant mb-lg gap-lg">
+<a class="pb-3 text-label-md font-label-md text-on-surface-variant hover:text-on-surface" href="#">General Info</a>
+<a class="pb-3 text-label-md font-label-md text-on-surface-variant hover:text-on-surface" href="#">Security</a>
+<a class="pb-3 text-label-md font-label-md text-primary font-bold border-b-2 border-primary" href="#">Roles &amp; Permissions</a>
+<a class="pb-3 text-label-md font-label-md text-on-surface-variant hover:text-on-surface" href="#">Audit Logs</a>
+</div>
+<!-- Bento Grid Content Area -->
+<div class="grid grid-cols-12 gap-gutter">
+<!-- Left Column: Role Selection -->
+<div class="col-span-12 lg:col-span-4 space-y-4">
+<div class="p-lg bg-surface-container-lowest border border-outline-variant rounded-xl shadow-sm">
+<h3 class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider mb-md">User Roles</h3>
+<div class="space-y-3">
+<!-- Admin Role -->
+<div class="p-4 border-2 border-primary bg-primary/5 rounded-lg flex items-start gap-4 cursor-pointer transition-all">
+<div class="w-10 h-10 flex items-center justify-center rounded-lg bg-primary-container text-on-primary-container">
+<span class="material-symbols-outlined">shield</span>
+</div>
+<div class="flex-1">
+<p class="font-label-md text-label-md font-bold text-on-surface">Admin</p>
+<p class="text-xs text-on-surface-variant">Full access to all settings and data across the organization.</p>
+</div>
+<span class="material-symbols-outlined text-primary">check_circle</span>
+</div>
+<!-- Editor Role -->
+<div class="p-4 border border-outline-variant hover:border-primary-fixed hover:bg-surface-container transition-all rounded-lg flex items-start gap-4 cursor-pointer">
+<div class="w-10 h-10 flex items-center justify-center rounded-lg bg-secondary-fixed text-on-secondary-fixed">
+<span class="material-symbols-outlined">edit</span>
+</div>
+<div class="flex-1">
+<p class="font-label-md text-label-md font-bold text-on-surface">Editor</p>
+<p class="text-xs text-on-surface-variant">Can create and manage content but limited workspace settings.</p>
+</div>
+</div>
+<!-- Member Role -->
+<div class="p-4 border border-outline-variant hover:border-primary-fixed hover:bg-surface-container transition-all rounded-lg flex items-start gap-4 cursor-pointer">
+<div class="w-10 h-10 flex items-center justify-center rounded-lg bg-tertiary-fixed text-on-tertiary-fixed">
+<span class="material-symbols-outlined">person</span>
+</div>
+<div class="flex-1">
+<p class="font-label-md text-label-md font-bold text-on-surface">Member</p>
+<p class="text-xs text-on-surface-variant">Daily operational access to assigned projects and tasks.</p>
+</div>
+</div>
+<!-- Guest Role -->
+<div class="p-4 border border-outline-variant hover:border-primary-fixed hover:bg-surface-container transition-all rounded-lg flex items-start gap-4 cursor-pointer">
+<div class="w-10 h-10 flex items-center justify-center rounded-lg bg-surface-container-highest text-on-surface">
+<span class="material-symbols-outlined">person_outline</span>
+</div>
+<div class="flex-1">
+<p class="font-label-md text-label-md font-bold text-on-surface">Guest</p>
+<p class="text-xs text-on-surface-variant">View-only access or limited contribution to specific tasks.</p>
+</div>
+</div>
+</div>
+<button class="w-full mt-lg py-3 px-4 border border-dashed border-outline text-on-surface-variant rounded-lg font-label-md text-label-md hover:border-primary hover:text-primary transition-all flex items-center justify-center gap-2">
+<span class="material-symbols-outlined">add_circle</span> Create Custom Role
+                        </button>
+</div>
+</div>
+<!-- Right Column: Permissions Configuration -->
+<div class="col-span-12 lg:col-span-8 space-y-gutter">
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl shadow-sm overflow-hidden flex flex-col">
+<div class="p-lg border-b border-outline-variant flex justify-between items-center bg-surface-bright">
+<div>
+<h3 class="font-headline-md text-headline-md text-on-surface">Admin Permissions</h3>
+<p class="text-label-md text-on-surface-variant">Managing permissions for the highest privilege level.</p>
+</div>
+<button class="flex items-center gap-2 px-4 py-2 border border-outline-variant rounded-lg font-label-md text-label-md hover:bg-surface-container-low transition-colors">
+<span class="material-symbols-outlined text-sm">edit</span> Edit Role Name
+                            </button>
+</div>
+<!-- Permissions Accordions -->
+<div class="p-lg space-y-4 max-h-[600px] overflow-y-auto custom-scrollbar">
+<!-- Project Management -->
+<details class="group" open="">
+<summary class="flex items-center justify-between p-4 bg-surface-container-low rounded-lg cursor-pointer hover:bg-surface-container transition-colors">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary">folder</span>
+<span class="font-label-md text-label-md font-bold">Project Management</span>
+</div>
+<span class="material-symbols-outlined transition-transform group-open:rotate-180">expand_more</span>
+</summary>
+<div class="p-4 space-y-4 bg-surface-container-lowest border-x border-b border-surface-container-low rounded-b-lg">
+<div class="flex items-center justify-between">
+<div>
+<p class="text-label-md font-bold text-on-surface">Create Projects</p>
+<p class="text-xs text-on-surface-variant">Allows creating new workspace projects.</p>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-11 h-6 bg-outline-variant peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+</label>
+</div>
+<div class="flex items-center justify-between">
+<div>
+<p class="text-label-md font-bold text-on-surface">Archive/Delete Projects</p>
+<p class="text-xs text-on-surface-variant">Full control over project lifecycle.</p>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-11 h-6 bg-outline-variant peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+</label>
+</div>
+</div>
+</details>
+<!-- Task Management -->
+<details class="group">
+<summary class="flex items-center justify-between p-4 bg-surface-container-low rounded-lg cursor-pointer hover:bg-surface-container transition-colors">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary">assignment</span>
+<span class="font-label-md text-label-md font-bold">Task Management</span>
+</div>
+<span class="material-symbols-outlined transition-transform group-open:rotate-180">expand_more</span>
+</summary>
+<div class="p-4 space-y-4 bg-surface-container-lowest border-x border-b border-surface-container-low rounded-b-lg">
+<div class="flex items-center justify-between">
+<div>
+<p class="text-label-md font-bold text-on-surface">Global Task Edit</p>
+<p class="text-xs text-on-surface-variant">Edit any task across all projects.</p>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-11 h-6 bg-outline-variant peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+</label>
+</div>
+</div>
+</details>
+<!-- Team Management -->
+<details class="group">
+<summary class="flex items-center justify-between p-4 bg-surface-container-low rounded-lg cursor-pointer hover:bg-surface-container transition-colors">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary">group</span>
+<span class="font-label-md text-label-md font-bold">Team Management</span>
+</div>
+<span class="material-symbols-outlined transition-transform group-open:rotate-180">expand_more</span>
+</summary>
+<div class="p-4 space-y-4 bg-surface-container-lowest border-x border-b border-surface-container-low rounded-b-lg">
+<div class="flex items-center justify-between">
+<div>
+<p class="text-label-md font-bold text-on-surface">Invite Members</p>
+<p class="text-xs text-on-surface-variant">Invite new users via email or link.</p>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-11 h-6 bg-outline-variant peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+</label>
+</div>
+<div class="flex items-center justify-between">
+<div>
+<p class="text-label-md font-bold text-on-surface">Manage Roles</p>
+<p class="text-xs text-on-surface-variant">Change permission levels for other users.</p>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-11 h-6 bg-outline-variant peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+</label>
+</div>
+</div>
+</details>
+<!-- Billing -->
+<details class="group">
+<summary class="flex items-center justify-between p-4 bg-surface-container-low rounded-lg cursor-pointer hover:bg-surface-container transition-colors">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary">payments</span>
+<span class="font-label-md text-label-md font-bold">Billing &amp; Subscription</span>
+</div>
+<span class="material-symbols-outlined transition-transform group-open:rotate-180">expand_more</span>
+</summary>
+<div class="p-4 space-y-4 bg-surface-container-lowest border-x border-b border-surface-container-low rounded-b-lg">
+<div class="flex items-center justify-between">
+<div>
+<p class="text-label-md font-bold text-on-surface">View Invoices</p>
+<p class="text-xs text-on-surface-variant">Access transaction history and receipts.</p>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-11 h-6 bg-outline-variant peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+</label>
+</div>
+</div>
+</details>
+</div>
+<!-- Sticky Action Bar -->
+<div class="p-lg bg-surface border-t border-outline-variant flex items-center justify-between">
+<button class="text-label-md font-label-md text-on-surface-variant hover:text-error transition-colors flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">delete</span> Delete Role
+                            </button>
+<div class="flex gap-4">
+<button class="px-6 py-2 border border-outline-variant rounded-lg font-label-md text-label-md text-on-surface hover:bg-surface-container-low transition-colors">Discard Changes</button>
+<button class="px-8 py-2 indigo-gradient text-white rounded-lg font-label-md text-label-md hover:opacity-90 shadow-lg shadow-primary/20 transition-all active:scale-95">Save Changes</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Bottom Contextual Card (Bento Item) -->
+<div class="mt-lg grid grid-cols-1 md:grid-cols-3 gap-gutter">
+<div class="glass-panel p-lg rounded-xl flex items-center gap-4">
+<div class="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">security_update_good</span>
+</div>
+<div>
+<p class="font-label-md font-bold">2FA Required</p>
+<p class="text-xs text-on-surface-variant">Mandatory for Admin roles.</p>
+</div>
+</div>
+<div class="glass-panel p-lg rounded-xl flex items-center gap-4">
+<div class="w-12 h-12 bg-secondary-container/10 rounded-full flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined">history</span>
+</div>
+<div>
+<p class="font-label-md font-bold">Change Log</p>
+<p class="text-xs text-on-surface-variant">Last edit by Sarah M. 2h ago.</p>
+</div>
+</div>
+<div class="glass-panel p-lg rounded-xl flex items-center gap-4">
+<div class="w-12 h-12 bg-tertiary-container/10 rounded-full flex items-center justify-center text-tertiary">
+<span class="material-symbols-outlined">api</span>
+</div>
+<div>
+<p class="font-label-md font-bold">API Access</p>
+<p class="text-xs text-on-surface-variant">Tokens auto-revoked on role change.</p>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Simple Interactivity for Toggles -->
+<script>
+        document.querySelectorAll('input[type="checkbox"]').forEach(toggle => {
+            toggle.addEventListener('change', function() {
+                const parent = this.closest('.flex.items-center.justify-between');
+                if (this.checked) {
+                    parent.style.opacity = '1';
+                } else {
+                    parent.style.opacity = '0.7';
+                }
+            });
+        });
+
+        // Simple role selection mock
+        const roleCards = document.querySelectorAll('.col-span-12.lg\\:col-span-4 .space-y-3 > div');
+        roleCards.forEach(card => {
+            card.addEventListener('click', () => {
+                roleCards.forEach(c => {
+                    c.classList.remove('border-2', 'border-primary', 'bg-primary/5');
+                    c.classList.add('border', 'border-outline-variant');
+                    const check = c.querySelector('.material-symbols-outlined:last-child');
+                    if (check && check.innerText === 'check_circle') check.remove();
+                });
+                card.classList.remove('border-outline-variant');
+                card.classList.add('border-2', 'border-primary', 'bg-primary/5');
+                const checkMark = document.createElement('span');
+                checkMark.className = 'material-symbols-outlined text-primary';
+                checkMark.innerText = 'check_circle';
+                card.appendChild(checkMark);
+            });
+        });
+    </script>
+</body></html>

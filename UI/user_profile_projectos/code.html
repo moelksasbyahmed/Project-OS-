@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>User Profile - David Chen | ProjectOS</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container-high": "#dce9ff",
+                        "secondary-fixed": "#ffddb8",
+                        "tertiary-container": "#00885d",
+                        "secondary-fixed-dim": "#ffb95f",
+                        "on-primary": "#ffffff",
+                        "surface-bright": "#f8f9ff",
+                        "inverse-on-surface": "#eaf1ff",
+                        "primary-container": "#6063ee",
+                        "surface-container-low": "#eff4ff",
+                        "tertiary-fixed": "#6ffbbe",
+                        "on-primary-fixed-variant": "#2f2ebe",
+                        "tertiary": "#006c49",
+                        "inverse-surface": "#213145",
+                        "surface-container-highest": "#d3e4fe",
+                        "on-secondary-container": "#684000",
+                        "tertiary-fixed-dim": "#4edea3",
+                        "secondary-container": "#fea619",
+                        "on-tertiary-container": "#000703",
+                        "surface-variant": "#d3e4fe",
+                        "on-secondary": "#ffffff",
+                        "surface-tint": "#494bd6",
+                        "surface-container-lowest": "#ffffff",
+                        "surface": "#f8f9ff",
+                        "secondary": "#855300",
+                        "on-tertiary-fixed": "#002113",
+                        "surface-container": "#e5eeff",
+                        "on-tertiary": "#ffffff",
+                        "primary": "#4648d4",
+                        "error-container": "#ffdad6",
+                        "on-surface-variant": "#464554",
+                        "inverse-primary": "#c0c1ff",
+                        "on-error": "#ffffff",
+                        "outline": "#767586",
+                        "outline-variant": "#c7c4d7",
+                        "on-surface": "#0b1c30",
+                        "on-secondary-fixed": "#2a1700",
+                        "on-background": "#0b1c30",
+                        "on-primary-fixed": "#07006c",
+                        "error": "#ba1a1a",
+                        "on-error-container": "#93000a",
+                        "primary-fixed-dim": "#c0c1ff",
+                        "background": "#f8f9ff",
+                        "primary-fixed": "#e1e0ff",
+                        "on-primary-container": "#fffbff",
+                        "on-tertiary-fixed-variant": "#005236",
+                        "on-secondary-fixed-variant": "#653e00",
+                        "surface-dim": "#cbdbf5"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "margin-desktop": "40px",
+                        "sm": "8px",
+                        "lg": "24px",
+                        "margin-mobile": "16px",
+                        "xl": "32px",
+                        "unit": "8px",
+                        "gutter": "24px",
+                        "xs": "4px",
+                        "md": "16px"
+                    },
+                    "fontFamily": {
+                        "label-sm": ["Inter"],
+                        "body-md": ["Inter"],
+                        "label-md": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "headline-lg-mobile": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "display-lg": ["Inter"],
+                        "body-lg": ["Inter"]
+                    },
+                    "fontSize": {
+                        "label-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "label-md": ["14px", {"lineHeight": "20px", "fontWeight": "500"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                        "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; background-color: #f8f9ff; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        .primary-gradient { background: linear-gradient(135deg, #4648d4 0%, #6063ee 100%); }
+        .glass-panel { backdrop-filter: blur(8px); background: rgba(255, 255, 255, 0.8); }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+</head>
+<body class="text-on-surface">
+<!-- Sidebar Navigation -->
+<aside class="fixed left-0 top-0 h-full w-[280px] bg-surface border-r border-outline-variant flex flex-col p-md z-50">
+<div class="mb-xl px-4">
+<h1 class="font-headline-md text-headline-md font-bold text-primary">ProjectOS</h1>
+<p class="text-label-sm text-on-surface-variant">Enterprise Plan</p>
+</div>
+<nav class="flex-1 space-y-2">
+<a class="flex items-center gap-3 text-on-surface-variant hover:bg-surface-variant hover:text-on-surface rounded-lg px-4 py-3 transition-colors transition-all duration-200 ease-in-out hover:translate-x-1" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-label-md text-label-md">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 text-on-surface-variant hover:bg-surface-variant hover:text-on-surface rounded-lg px-4 py-3 transition-colors transition-all duration-200 ease-in-out hover:translate-x-1" href="#">
+<span class="material-symbols-outlined">folder_open</span>
+<span class="font-label-md text-label-md">Projects</span>
+</a>
+<a class="flex items-center gap-3 text-on-surface-variant hover:bg-surface-variant hover:text-on-surface rounded-lg px-4 py-3 transition-colors transition-all duration-200 ease-in-out hover:translate-x-1" href="#">
+<span class="material-symbols-outlined">assignment</span>
+<span class="font-label-md text-label-md">Tasks</span>
+</a>
+<!-- Active State: Team -->
+<a class="flex items-center gap-3 bg-primary-container text-on-primary-container rounded-lg px-4 py-3 transition-all duration-200 ease-in-out hover:translate-x-1" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">group</span>
+<span class="font-label-md text-label-md">Team</span>
+</a>
+<a class="flex items-center gap-3 text-on-surface-variant hover:bg-surface-variant hover:text-on-surface rounded-lg px-4 py-3 transition-colors transition-all duration-200 ease-in-out hover:translate-x-1" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-label-md text-label-md">Settings</span>
+</a>
+</nav>
+<div class="mt-auto pt-md border-t border-outline-variant">
+<button class="w-full primary-gradient text-on-primary font-label-md text-label-md py-3 rounded-lg flex items-center justify-center gap-2 shadow-lg shadow-primary/20 hover:scale-[1.02] transition-transform">
+<span class="material-symbols-outlined">add</span>
+                New Project
+            </button>
+<div class="mt-md flex items-center gap-3 px-2">
+<img class="w-10 h-10 rounded-full border-2 border-primary-container" data-alt="A professional headshot of a senior project manager in a clean, brightly lit modern office. He has a warm, confident expression and is wearing a dark charcoal suit. The lighting is soft and flattering, creating a premium light-mode aesthetic with a blurred tech-focused background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC4TNpSPPJDFtkXslMQS-fEizz46LW8TNRMGfuCg1Ayd9SuidPrJTkfU4sX_2g-UfrZOeO6CLCMqydRLoVquUrRnIbxAyhvpBHdV9xG-EhnHl_S0VygU2CoI4fLSZYjQGJbWCN4xH4h58BCWlHZ3vX99xEXykE-jnwUtbymLwGkmsBaOrkshlCX2YVoAtAFx7cQJMI_uhU4WgejZPjCYkA2S6XagEGtoC_FYRkzN5E79-cMiGb-srdz7tq9RwQUlUW2P74YUVdmrFA"/>
+<div class="overflow-hidden">
+<p class="font-label-md text-label-md text-on-surface truncate">Alex Rivera</p>
+<p class="text-xs text-on-surface-variant truncate">Admin Account</p>
+</div>
+</div>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="ml-[280px] min-h-screen">
+<!-- Top Navigation Bar -->
+<header class="flex justify-between items-center h-16 w-full px-lg sticky top-0 z-40 bg-surface/80 backdrop-blur-md">
+<div class="flex items-center gap-4 flex-1">
+<div class="relative w-full max-w-md">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
+<input class="w-full bg-surface-container-low border-none rounded-full pl-10 pr-4 py-2 text-label-md focus:ring-2 focus:ring-primary/20 placeholder:text-on-surface-variant/50" placeholder="Search team members, files, or tasks..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-4">
+<button class="relative text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-0 right-0 w-2 h-2 bg-error rounded-full border-2 border-surface"></span>
+</button>
+<button class="text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined">help_outline</span>
+</button>
+</div>
+<div class="h-8 w-[1px] bg-outline-variant"></div>
+<div class="flex items-center gap-2">
+<span class="font-label-md text-label-md text-on-surface">Member Profile</span>
+</div>
+</div>
+</header>
+<!-- Profile Content Container -->
+<div class="p-lg max-w-7xl mx-auto space-y-lg">
+<!-- Hero Profile Section (Bento Style) -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-lg">
+<!-- Main Identity Card -->
+<div class="lg:col-span-2 bg-surface-container-lowest rounded-xl p-xl border border-outline-variant flex flex-col md:flex-row gap-xl items-center md:items-start relative overflow-hidden">
+<div class="absolute top-0 right-0 w-64 h-64 primary-gradient opacity-[0.03] rounded-full -mr-32 -mt-32"></div>
+<div class="relative group">
+<img class="w-32 h-32 rounded-2xl object-cover border-4 border-surface shadow-xl" data-alt="A portrait of David Chen, a software engineer with glasses, smiling warmly. He is in a brightly lit, minimalist home office with plants and soft morning light. The visual style is high-definition, clean, and modern, using a soft pastel color palette typical of a premium tech application." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAUmrfjj3mF3MpG-ohqZj6Q-J5stkZHV4r4VbWZLh7f9RKXZxsOnF4R56fwsXiYv0DP56mzkl9eOYHBh55qgiBuyQ0aTdUtdNDEHYtXcRgQSJJMAH6xs7jWc8-LnGoh24DiP7Zs9eDGFmJ2HN5Rm4r8SmWe3XdUEGIPHN4fpPHx60WM0gQoLVRP7kxHjQilnUXo96YNXjfM2Bvl6UL1xeb5A-TCsqNIii4a714HJBoyqaquCxhk2DxP_-4AbY_ZkeFVbJV6dBwiwds"/>
+<div class="absolute -bottom-2 -right-2 bg-tertiary text-on-tertiary px-2 py-1 rounded-md text-[10px] font-bold uppercase tracking-wider">Online</div>
+</div>
+<div class="flex-1 text-center md:text-left">
+<div class="flex flex-col md:flex-row md:items-center gap-2 mb-2">
+<h2 class="font-headline-lg text-headline-lg text-on-surface">David Chen</h2>
+<span class="w-fit mx-auto md:mx-0 px-3 py-1 bg-primary-container/10 text-primary rounded-full text-label-sm">Senior Lead Developer</span>
+</div>
+<p class="text-body-md text-on-surface-variant mb-6 max-w-lg">Specializing in cloud architecture and reactive frontend systems. Driving technical excellence across the Core Infrastructure team since 2021.</p>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+<div class="flex items-center gap-3 text-on-surface-variant">
+<div class="w-8 h-8 rounded-lg bg-surface-container flex items-center justify-center">
+<span class="material-symbols-outlined text-[18px]">mail</span>
+</div>
+<span class="text-label-md">david.chen@projectos.com</span>
+</div>
+<div class="flex items-center gap-3 text-on-surface-variant">
+<div class="w-8 h-8 rounded-lg bg-surface-container flex items-center justify-center">
+<span class="material-symbols-outlined text-[18px]">location_on</span>
+</div>
+<span class="text-label-md">San Francisco, CA</span>
+</div>
+</div>
+</div>
+<div class="flex md:flex-col gap-2">
+<button class="p-3 border border-outline-variant rounded-lg hover:bg-surface-variant transition-colors">
+<span class="material-symbols-outlined">chat_bubble</span>
+</button>
+<button class="p-3 border border-outline-variant rounded-lg hover:bg-surface-variant transition-colors">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</div>
+</div>
+<!-- Quick Stats Card -->
+<div class="bg-primary-container text-on-primary-container rounded-xl p-lg flex flex-col justify-between relative overflow-hidden">
+
+<div class="relative z-10">
+<p class="text-label-md opacity-80 mb-sm">Performance Score</p>
+<h3 class="text-display-lg font-display-lg">98<span class="text-headline-md">/100</span></h3>
+</div>
+<div class="relative z-10 space-y-4">
+<div class="flex justify-between items-end">
+<span class="text-label-sm">Project Reliability</span>
+<span class="text-label-md font-bold">Excellent</span>
+</div>
+<div class="w-full h-2 bg-on-primary-container/20 rounded-full overflow-hidden">
+<div class="h-full bg-on-primary-container w-[92%]"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Dashboard Grid Layout -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-lg">
+<!-- Left Column: Projects & Information -->
+<div class="lg:col-span-2 space-y-lg">
+<!-- Active Projects Bento Section -->
+<section>
+<div class="flex items-center justify-between mb-md">
+<h3 class="font-headline-md text-headline-md text-on-surface">Active Projects</h3>
+<button class="text-primary font-label-md text-label-md hover:underline">View All</button>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-md">
+<!-- Project Card 1 -->
+<div class="bg-surface-container-lowest p-md rounded-xl border border-outline-variant hover:border-primary/40 transition-all group">
+<div class="flex justify-between items-start mb-lg">
+<div class="w-12 h-12 rounded-lg bg-tertiary-container/10 flex items-center justify-center text-tertiary">
+<span class="material-symbols-outlined">terminal</span>
+</div>
+<span class="px-2 py-1 bg-tertiary-container/10 text-on-tertiary-container text-[10px] font-bold rounded">ON TRACK</span>
+</div>
+<h4 class="font-label-md text-label-md text-on-surface mb-xs">Kernel Expansion V2</h4>
+<p class="text-label-sm text-on-surface-variant mb-md">Refactoring the core API layer for higher throughput.</p>
+<div class="flex justify-between items-center text-xs text-on-surface-variant mb-2">
+<span>Progress</span>
+<span>75%</span>
+</div>
+<div class="w-full h-1.5 bg-surface-container rounded-full overflow-hidden">
+<div class="h-full primary-gradient w-[75%] rounded-full"></div>
+</div>
+</div>
+<!-- Project Card 2 -->
+<div class="bg-surface-container-lowest p-md rounded-xl border border-outline-variant hover:border-primary/40 transition-all group">
+<div class="flex justify-between items-start mb-lg">
+<div class="w-12 h-12 rounded-lg bg-secondary-container/10 flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined">cloud_sync</span>
+</div>
+<span class="px-2 py-1 bg-secondary-container/10 text-on-secondary-container text-[10px] font-bold rounded">IN REVIEW</span>
+</div>
+<h4 class="font-label-md text-label-md text-on-surface mb-xs">Data Lake Migration</h4>
+<p class="text-label-sm text-on-surface-variant mb-md">Migrating legacy SQL structures to high-perf nodes.</p>
+<div class="flex justify-between items-center text-xs text-on-surface-variant mb-2">
+<span>Progress</span>
+<span>40%</span>
+</div>
+<div class="w-full h-1.5 bg-surface-container rounded-full overflow-hidden">
+<div class="h-full primary-gradient w-[40%] rounded-full"></div>
+</div>
+</div>
+</div>
+</section>
+<!-- Personal Information Grid -->
+<section class="bg-surface-container-lowest rounded-xl p-lg border border-outline-variant">
+<h3 class="font-headline-md text-headline-md text-on-surface mb-lg">Personal Information</h3>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-lg">
+<div class="space-y-4">
+<div>
+<p class="text-label-sm text-on-surface-variant uppercase tracking-wider mb-1">Date Joined</p>
+<p class="text-body-md text-on-surface font-medium">October 14, 2021</p>
+</div>
+<div>
+<p class="text-label-sm text-on-surface-variant uppercase tracking-wider mb-1">Timezone</p>
+<p class="text-body-md text-on-surface font-medium">Pacific Time (PT) - UTC-8</p>
+</div>
+<div>
+<p class="text-label-sm text-on-surface-variant uppercase tracking-wider mb-1">Work Preferences</p>
+<div class="flex flex-wrap gap-2 mt-2">
+<span class="px-3 py-1 bg-surface-container rounded-full text-label-sm">Remote First</span>
+<span class="px-3 py-1 bg-surface-container rounded-full text-label-sm">Async Focused</span>
+</div>
+</div>
+</div>
+<div class="space-y-4">
+<div>
+<p class="text-label-sm text-on-surface-variant uppercase tracking-wider mb-1">Reporting To</p>
+<div class="flex items-center gap-2 mt-2">
+<img class="w-6 h-6 rounded-full" data-alt="A small circular avatar of a female executive with short hair, professional and friendly." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCp_1FSPbM7PheHx2rGATkzcl8AyAhgzjZe652CezEsth1-CPP2A0Z4Zt6uuqmsf8zcKNoEO3gfJ2yfaYL3u5E6M6k3wvEYmWzdnVl35Qcrwatg3GIJOGAQL_p3bM0dDIJMQN32V2zBoJMslUWRGZQpA0OlVmmsUlXseu2ygvsLqXMOCHeEkGkbG647-JrHLCdENrYGz4fanh1NipHv3E6qIaAG3ze5JpjfgyprDWeFGoc66PotM5kd1A2aey8RI6Rf6smSFanAWb0"/>
+<p class="text-body-md text-on-surface font-medium">Sarah Jenkins (VP Eng)</p>
+</div>
+</div>
+<div>
+<p class="text-label-sm text-on-surface-variant uppercase tracking-wider mb-1">Skills &amp; Stack</p>
+<div class="flex flex-wrap gap-2 mt-2">
+<span class="px-3 py-1 bg-primary/10 text-primary rounded-full text-label-sm">TypeScript</span>
+<span class="px-3 py-1 bg-primary/10 text-primary rounded-full text-label-sm">Rust</span>
+<span class="px-3 py-1 bg-primary/10 text-primary rounded-full text-label-sm">Kubernetes</span>
+<span class="px-3 py-1 bg-primary/10 text-primary rounded-full text-label-sm">AWS</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+</div>
+<!-- Right Column: Recent Activity & Tasks -->
+<div class="space-y-lg">
+<!-- Task Completion Overview -->
+<section class="bg-surface-container-highest/30 rounded-xl p-lg border border-outline-variant">
+<h4 class="font-label-md text-label-md text-on-surface mb-lg">Task Statistics</h4>
+<div class="space-y-6">
+<div>
+<div class="flex justify-between text-label-sm mb-2">
+<span class="text-on-surface">Weekly Tasks Completed</span>
+<span class="font-bold">24/30</span>
+</div>
+<div class="w-full h-2 bg-surface-container rounded-full overflow-hidden">
+<div class="h-full primary-gradient w-[80%] rounded-full"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between text-label-sm mb-2">
+<span class="text-on-surface">Code Review Quality</span>
+<span class="font-bold">96%</span>
+</div>
+<div class="w-full h-2 bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-tertiary w-[96%] rounded-full"></div>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-4 mt-6">
+<div class="bg-surface-container-lowest p-3 rounded-lg border border-outline-variant text-center">
+<p class="text-[10px] text-on-surface-variant uppercase font-bold">Total PRs</p>
+<p class="text-headline-md text-primary">412</p>
+</div>
+<div class="bg-surface-container-lowest p-3 rounded-lg border border-outline-variant text-center">
+<p class="text-[10px] text-on-surface-variant uppercase font-bold">Success Rate</p>
+<p class="text-headline-md text-tertiary">99%</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Recent Activity List -->
+<section class="bg-surface-container-lowest rounded-xl p-lg border border-outline-variant flex flex-col h-[480px]">
+<h3 class="font-headline-md text-headline-md text-on-surface mb-lg">Recent Activity</h3>
+<div class="flex-1 overflow-y-auto hide-scrollbar space-y-6">
+<!-- Activity Item 1 -->
+<div class="flex gap-4 relative">
+<div class="absolute left-[15px] top-8 bottom-[-24px] w-[2px] bg-outline-variant"></div>
+<div class="z-10 w-8 h-8 rounded-full bg-primary-container/20 text-primary flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[18px]">commit</span>
+</div>
+<div>
+<p class="text-label-md text-on-surface">Pushed 4 commits to <span class="font-bold">main/gateway</span></p>
+<p class="text-label-sm text-on-surface-variant">2 hours ago</p>
+</div>
+</div>
+<!-- Activity Item 2 -->
+<div class="flex gap-4 relative">
+<div class="absolute left-[15px] top-8 bottom-[-24px] w-[2px] bg-outline-variant"></div>
+<div class="z-10 w-8 h-8 rounded-full bg-tertiary-container/20 text-tertiary flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+<div>
+<p class="text-label-md text-on-surface">Completed task <span class="font-bold">Security Audit Prep</span></p>
+<p class="text-label-sm text-on-surface-variant">5 hours ago</p>
+</div>
+</div>
+<!-- Activity Item 3 -->
+<div class="flex gap-4 relative">
+<div class="absolute left-[15px] top-8 bottom-[-24px] w-[2px] bg-outline-variant"></div>
+<div class="z-10 w-8 h-8 rounded-full bg-secondary-container/20 text-secondary flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[18px]">chat</span>
+</div>
+<div>
+<p class="text-label-md text-on-surface">Commented on <span class="font-bold">Migration Strategy</span></p>
+<p class="text-label-sm text-on-surface-variant">Yesterday at 4:32 PM</p>
+</div>
+</div>
+<!-- Activity Item 4 -->
+<div class="flex gap-4 relative">
+<div class="z-10 w-8 h-8 rounded-full bg-surface-container-high text-on-surface-variant flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[18px]">add_task</span>
+</div>
+<div>
+<p class="text-label-md text-on-surface">Assigned to <span class="font-bold">Refactor Auth</span></p>
+<p class="text-label-sm text-on-surface-variant">Yesterday at 11:05 AM</p>
+</div>
+</div>
+</div>
+</section>
+</div>
+</div>
+</div>
+</main>
+<script>
+        // Simple micro-interaction for the navigation and cards
+        document.querySelectorAll('a, button').forEach(el => {
+            el.addEventListener('mousedown', () => {
+                el.classList.add('scale-95');
+            });
+            el.addEventListener('mouseup', () => {
+                el.classList.remove('scale-95');
+            });
+            el.addEventListener('mouseleave', () => {
+                el.classList.remove('scale-95');
+            });
+        });
+
+        // Hover tilt effect for project cards
+        document.querySelectorAll('.hover\\:border-primary\\/40').forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+                const rotateX = (y - centerY) / 20;
+                const rotateY = (centerX - x) / 20;
+                card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-4px)`;
+            });
+            card.addEventListener('mouseleave', () => {
+                card.style.transform =</script></body></html>

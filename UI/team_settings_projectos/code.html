@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>ProjectOS - Team &amp; Settings</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-error": "#ffffff",
+                        "on-primary-container": "#fffbff",
+                        "error-container": "#ffdad6",
+                        "primary-fixed-dim": "#c0c1ff",
+                        "on-secondary-fixed-variant": "#653e00",
+                        "surface": "#f8f9ff",
+                        "surface-container-highest": "#d3e4fe",
+                        "outline": "#767586",
+                        "on-surface-variant": "#464554",
+                        "background": "#f8f9ff",
+                        "secondary": "#855300",
+                        "error": "#ba1a1a",
+                        "surface-variant": "#d3e4fe",
+                        "inverse-surface": "#213145",
+                        "on-tertiary-fixed-variant": "#005236",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-tint": "#494bd6",
+                        "inverse-primary": "#c0c1ff",
+                        "surface-dim": "#cbdbf5",
+                        "secondary-container": "#fea619",
+                        "on-primary-fixed": "#07006c",
+                        "primary-fixed": "#e1e0ff",
+                        "tertiary-container": "#00885d",
+                        "inverse-on-surface": "#eaf1ff",
+                        "on-error-container": "#93000a",
+                        "on-tertiary": "#ffffff",
+                        "on-secondary-fixed": "#2a1700",
+                        "tertiary": "#006c49",
+                        "on-surface": "#0b1c30",
+                        "on-tertiary-container": "#000703",
+                        "on-tertiary-fixed": "#002113",
+                        "tertiary-fixed": "#6ffbbe",
+                        "on-secondary": "#ffffff",
+                        "secondary-fixed": "#ffddb8",
+                        "on-secondary-container": "#684000",
+                        "surface-container-high": "#dce9ff",
+                        "tertiary-fixed-dim": "#4edea3",
+                        "surface-container": "#e5eeff",
+                        "surface-container-low": "#eff4ff",
+                        "on-primary-fixed-variant": "#2f2ebe",
+                        "secondary-fixed-dim": "#ffb95f",
+                        "on-primary": "#ffffff",
+                        "primary": "#4648d4",
+                        "outline-variant": "#c7c4d7",
+                        "surface-bright": "#f8f9ff",
+                        "on-background": "#0b1c30",
+                        "primary-container": "#6063ee"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "xl": "32px",
+                        "unit": "8px",
+                        "margin-mobile": "16px",
+                        "margin-desktop": "40px",
+                        "xs": "4px",
+                        "sm": "8px",
+                        "lg": "24px",
+                        "gutter": "24px",
+                        "md": "16px"
+                    },
+                    "fontFamily": {
+                        "headline-lg": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "headline-lg-mobile": ["Inter"],
+                        "body-md": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "display-lg": ["Inter"],
+                        "label-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                        "label-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                        "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "label-md": ["14px", {"lineHeight": "20px", "fontWeight": "500"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .indigo-gradient {
+            background: linear-gradient(135deg, #4648d4 0%, #6063ee 100%);
+        }
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #c7c4d7; border-radius: 10px; }
+        .glass-panel {
+            backdrop-filter: blur(8px);
+            background: rgba(255, 255, 255, 0.8);
+        }
+        .toggle-checkbox:checked + .toggle-label {
+            background-color: #4648d4;
+        }
+        .toggle-checkbox:checked + .toggle-label::after {
+            transform: translateX(100%);
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface overflow-hidden">
+<!-- Sidebar Component -->
+<aside class="fixed left-0 top-0 h-full w-[280px] bg-surface border-r border-outline-variant flex flex-col p-md z-50">
+<div class="flex items-center gap-3 mb-xl px-2">
+<div class="w-10 h-10 indigo-gradient rounded-lg flex items-center justify-center text-white shadow-lg">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">dataset</span>
+</div>
+<div>
+<h1 class="font-headline-md text-headline-md font-bold text-primary">ProjectOS</h1>
+<p class="text-label-sm text-on-surface-variant">Enterprise Plan</p>
+</div>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="flex items-center gap-3 text-on-surface-variant hover:bg-surface-variant hover:text-on-surface rounded-lg px-4 py-3 transition-colors transition-all duration-200 ease-in-out hover:translate-x-1" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-label-md text-label-md">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 text-on-surface-variant hover:bg-surface-variant hover:text-on-surface rounded-lg px-4 py-3 transition-colors transition-all duration-200 ease-in-out hover:translate-x-1" href="#">
+<span class="material-symbols-outlined">folder_open</span>
+<span class="font-label-md text-label-md">Projects</span>
+</a>
+<a class="flex items-center gap-3 text-on-surface-variant hover:bg-surface-variant hover:text-on-surface rounded-lg px-4 py-3 transition-colors transition-all duration-200 ease-in-out hover:translate-x-1" href="#">
+<span class="material-symbols-outlined">assignment</span>
+<span class="font-label-md text-label-md">Tasks</span>
+</a>
+<!-- Active State: Team -->
+<a class="flex items-center gap-3 bg-primary-container text-on-primary-container rounded-lg px-4 py-3 transition-all duration-200 ease-in-out hover:translate-x-1" href="#" id="nav-team">
+<span class="material-symbols-outlined">group</span>
+<span class="font-label-md text-label-md">Team</span>
+</a>
+<a class="flex items-center gap-3 text-on-surface-variant hover:bg-surface-variant hover:text-on-surface rounded-lg px-4 py-3 transition-colors transition-all duration-200 ease-in-out hover:translate-x-1" href="#" id="nav-settings">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-label-md text-label-md">Settings</span>
+</a>
+</nav>
+<div class="mt-auto border-t border-outline-variant pt-md px-2">
+<button class="w-full indigo-gradient text-white rounded-lg py-3 px-4 flex items-center justify-center gap-2 font-label-md text-label-md shadow-lg active:scale-95 transition-transform">
+<span class="material-symbols-outlined text-sm">add</span>
+                New Project
+            </button>
+<div class="flex items-center gap-3 mt-lg">
+<div class="w-10 h-10 rounded-full bg-surface-container-highest overflow-hidden border border-outline-variant">
+<img class="w-full h-full object-cover" data-alt="A close-up high-resolution portrait of a professional woman with a warm, confident expression. She is wearing a modern navy blazer against a minimalist, softly blurred architectural background. The lighting is bright and natural, reflecting a clean corporate aesthetic with indigo tones that match a high-end tech project management interface." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAFfl5tOhbPuU-12UwgpCsrSq-cvWZq4zu-G-jhXjZORm-r9XDXVqnM6lHcJsGHbCghxUe3VCqxVx7qujSgSMZkoanHKzjAAKO6q1HeEoGRpaVaLsM0XTqADzoSgTpogmDgPznza0D4l6NOS41q2vMJe2RF03ftaFgSgdxT_onkFSQ3tAABj2eJNJ1irdTxzrEpzZ4NNm7ww4dZOfyvHtWNuWhDjbatDHzOfdyuNAlaA6Mw8pkQ03RdaYjCb7HdQ3bjlXJ9HhUP2vE"/>
+</div>
+<div class="flex-1 min-w-0">
+<p class="font-label-md text-label-md font-bold truncate">Alex Morgan</p>
+<p class="text-label-sm text-on-surface-variant truncate">Lead Designer</p>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-primary">logout</span>
+</div>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="ml-[280px] h-screen flex flex-col relative overflow-hidden">
+<!-- Top Nav Component -->
+<header class="flex justify-between items-center h-16 w-full px-lg sticky top-0 z-40 bg-surface/80 backdrop-blur-md border-b border-outline-variant">
+<div class="flex items-center gap-6 flex-1">
+<div class="relative w-full max-w-md group">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant group-focus-within:text-primary transition-colors">search</span>
+<input class="w-full bg-surface-container-low border border-outline-variant rounded-full pl-10 pr-4 py-2 text-label-md focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all" placeholder="Search team or settings..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 text-on-surface-variant hover:bg-surface-container-low rounded-full transition-colors active:scale-95">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="p-2 text-on-surface-variant hover:bg-surface-container-low rounded-full transition-colors active:scale-95">
+<span class="material-symbols-outlined">help_outline</span>
+</button>
+<div class="h-8 w-px bg-outline-variant mx-2"></div>
+<div class="flex items-center gap-2 px-2 py-1 hover:bg-surface-container-low rounded-lg cursor-pointer transition-colors">
+<div class="w-8 h-8 rounded-full bg-primary-fixed overflow-hidden flex items-center justify-center">
+<span class="font-bold text-on-primary-fixed text-xs">AM</span>
+</div>
+</div>
+</div>
+</header>
+<!-- Content Canvas -->
+<div class="flex-1 overflow-y-auto custom-scrollbar p-gutter">
+<div class="max-w-6xl mx-auto space-y-xl">
+<!-- Page Header & Tabs -->
+<div class="flex flex-col gap-lg">
+<div>
+<h2 class="font-headline-lg text-headline-lg text-on-surface mb-2" id="page-title">Team Management</h2>
+<p class="text-on-surface-variant text-body-md" id="page-subtitle">Manage your team members and their access levels.</p>
+</div>
+<!-- Modern Tab Switcher -->
+<div class="flex p-1 bg-surface-container rounded-xl w-fit">
+<button class="px-8 py-2.5 rounded-lg font-label-md text-label-md transition-all duration-200 bg-white text-primary shadow-sm ring-1 ring-black/5" id="tab-team-btn" onclick="switchTab('team')">
+                            Team Members
+                        </button>
+<button class="px-8 py-2.5 rounded-lg font-label-md text-label-md transition-all duration-200 text-on-surface-variant hover:text-on-surface" id="tab-settings-btn" onclick="switchTab('settings')">
+                            Account Settings
+                        </button>
+</div>
+</div>
+<!-- Tab Content: Team -->
+<div class="space-y-lg block" id="content-team">
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-lg">
+<!-- Bento-style Member Card -->
+<div class="bg-surface-container-lowest p-lg rounded-xl border border-outline-variant hover:border-primary/30 transition-all group">
+<div class="flex justify-between items-start mb-md">
+<div class="w-16 h-16 rounded-2xl overflow-hidden ring-4 ring-surface-container-low group-hover:ring-primary/10 transition-all">
+<img class="w-full h-full object-cover" data-alt="A portrait of a male software developer in his early 30s with short hair and glasses. He is wearing a minimalist grey hoodie and looking thoughtfully into the camera. The background is a clean, bright workspace with soft blue and purple lighting, maintaining a professional and high-tech feel for a software project management tool." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCf1izpg1yAcc79R9nqC4drCRlt7OxWzxBxS9M818JCu4c4PVMUBAuIvM_0OKSUsf7tn6UR-z7Xpnmd3cEJlnq2TQmKPJO-9iyfTSCt4f9TNnHFLnnOIcFZ_2re-sQkdWU8gPrcXzTQbbERiMX7Wgbd1vOx9HQc-HRVTtJdaVv4EOaM-fn4ByUlSZ6lvejZpDREe31t7TqcMcpme5vANMTmmi2dA1AEgfpfFMC8ExoVrUiIi5-AQDaM_rGiUQeVc_IqKM2Gijs_qjE"/>
+</div>
+<span class="px-3 py-1 rounded-full bg-tertiary-fixed text-on-tertiary-fixed text-label-sm">Active</span>
+</div>
+<h3 class="font-headline-md text-headline-md mb-1">David Chen</h3>
+<p class="text-on-surface-variant text-label-md mb-4">Senior Backend Engineer</p>
+<div class="flex items-center gap-2 mb-md text-on-surface-variant">
+<span class="material-symbols-outlined text-sm">mail</span>
+<span class="text-label-sm">d.chen@projectos.io</span>
+</div>
+<div class="pt-md border-t border-outline-variant flex items-center justify-between">
+<span class="text-label-sm font-bold text-primary">Admin</span>
+<button class="text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined">more_horiz</span>
+</button>
+</div>
+</div>
+<!-- Member Card 2 -->
+<div class="bg-surface-container-lowest p-lg rounded-xl border border-outline-variant hover:border-primary/30 transition-all group">
+<div class="flex justify-between items-start mb-md">
+<div class="w-16 h-16 rounded-2xl overflow-hidden ring-4 ring-surface-container-low group-hover:ring-primary/10 transition-all">
+<img class="w-full h-full object-cover" data-alt="A modern portrait of a creative director woman with curly hair and stylish eyewear. She is wearing a mustard yellow top. The environment is a bright, minimalist studio with high-contrast shadows and clean lines. The overall aesthetic is professional, creative, and tech-forward, matching an indigo-themed project management dashboard." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBA1ltGAGldz2kIiRlJZHxXcTPPX1rJr-2EmS3w2Jij8vGCPCMENxGvxL0IvueHAqsqxikDDQDZ0rUA3WbwuS4DazTcskpR4RnwU44paHX3Q-6C-CJBh1TsFTVI_Dr8cSba60Jp2ANtUnrxC7enDPvhBsoG9imFVpsXc4XvYSbU8-dUlHs85R-tuEhNzILai3xv-pqjDI5eBudtK9Pffc2i1e4ZZCT8pM0uZQU1v0_GNKvsUY4pl0OFvbG5C_aDWIO2w-hthIF66Eg"/>
+</div>
+<span class="px-3 py-1 rounded-full bg-secondary-fixed text-on-secondary-fixed text-label-sm">In Meeting</span>
+</div>
+<h3 class="font-headline-md text-headline-md mb-1">Sarah Jenkins</h3>
+<p class="text-on-surface-variant text-label-md mb-4">Product Manager</p>
+<div class="flex items-center gap-2 mb-md text-on-surface-variant">
+<span class="material-symbols-outlined text-sm">mail</span>
+<span class="text-label-sm">s.jenkins@projectos.io</span>
+</div>
+<div class="pt-md border-t border-outline-variant flex items-center justify-between">
+<span class="text-label-sm font-bold text-primary">Editor</span>
+<button class="text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined">more_horiz</span>
+</button>
+</div>
+</div>
+<!-- Member Card 3 (Empty State / Invite) -->
+<div class="border-2 border-dashed border-outline-variant rounded-xl flex flex-col items-center justify-center p-lg hover:border-primary hover:bg-surface-container-low transition-all cursor-pointer group">
+<div class="w-12 h-12 rounded-full bg-surface-container-highest flex items-center justify-center mb-md group-hover:bg-primary-container group-hover:text-white transition-colors">
+<span class="material-symbols-outlined">person_add</span>
+</div>
+<p class="font-bold text-on-surface mb-1">Invite New Member</p>
+<p class="text-label-sm text-on-surface-variant">Add more seats to your plan</p>
+</div>
+</div>
+<!-- Statistics Bar -->
+<div class="bg-inverse-surface text-inverse-on-surface p-xl rounded-2xl flex flex-wrap gap-xl items-center">
+<div class="flex-1">
+<p class="text-label-sm opacity-70 mb-1">Total Members</p>
+<p class="text-headline-lg font-bold">24 / 50</p>
+</div>
+<div class="w-px h-12 bg-white/20 hidden md:block"></div>
+<div class="flex-1">
+<p class="text-label-sm opacity-70 mb-1">Department Usage</p>
+<div class="w-full h-2 bg-white/10 rounded-full mt-2 overflow-hidden">
+<div class="h-full indigo-gradient" style="width: 65%;"></div>
+</div>
+</div>
+<div class="w-px h-12 bg-white/20 hidden md:block"></div>
+<div class="flex-1">
+<button class="bg-white text-primary px-lg py-sm rounded-lg font-bold text-label-md hover:bg-opacity-90 transition-all active:scale-95 w-full">
+                                Upgrade Seats
+                            </button>
+</div>
+</div>
+</div>
+<!-- Tab Content: Settings -->
+<div class="hidden animate-in fade-in slide-in-from-bottom-4 duration-300" id="content-settings">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-xl">
+<!-- Profile Form Section -->
+<div class="lg:col-span-8 space-y-lg">
+<section class="bg-white p-xl rounded-2xl shadow-sm ring-1 ring-black/5">
+<h4 class="font-headline-md text-headline-md mb-xl">Profile Information</h4>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-lg">
+<div class="space-y-sm">
+<label class="text-label-md font-bold text-on-surface-variant">Full Name</label>
+<input class="w-full border border-outline-variant rounded-lg px-4 py-3 focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all text-body-md" type="text" value="Alex Morgan"/>
+</div>
+<div class="space-y-sm">
+<label class="text-label-md font-bold text-on-surface-variant">Email Address</label>
+<input class="w-full border border-outline-variant rounded-lg px-4 py-3 focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all text-body-md" type="email" value="alex.m@projectos.io"/>
+</div>
+<div class="md:col-span-2 space-y-sm">
+<label class="text-label-md font-bold text-on-surface-variant">Bio</label>
+<textarea class="w-full border border-outline-variant rounded-lg px-4 py-3 focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all text-body-md" rows="3">Leading the creative vision for the next generation of enterprise tools.</textarea>
+</div>
+</div>
+<div class="mt-xl flex justify-end gap-md">
+<button class="px-6 py-2 rounded-lg font-label-md text-label-md text-on-surface-variant hover:bg-surface-variant transition-colors">Cancel</button>
+<button class="px-6 py-2 rounded-lg font-label-md text-label-md text-white indigo-gradient shadow-md active:scale-95 transition-transform">Save Changes</button>
+</div>
+</section>
+<!-- Appearance Section -->
+<section class="bg-white p-xl rounded-2xl shadow-sm ring-1 ring-black/5">
+<h4 class="font-headline-md text-headline-md mb-xl">Appearance</h4>
+<div class="grid grid-cols-3 gap-lg">
+<div class="relative group cursor-pointer">
+<div class="h-24 bg-surface border-2 border-primary rounded-xl mb-sm ring-4 ring-primary/10"></div>
+<p class="text-center text-label-sm font-bold">Light</p>
+<span class="material-symbols-outlined absolute top-2 right-2 text-primary bg-white rounded-full text-lg" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+<div class="relative group cursor-pointer opacity-50 hover:opacity-100 transition-opacity">
+<div class="h-24 bg-inverse-surface border border-outline-variant rounded-xl mb-sm"></div>
+<p class="text-center text-label-sm">Dark</p>
+</div>
+<div class="relative group cursor-pointer opacity-50 hover:opacity-100 transition-opacity">
+<div class="h-24 bg-gradient-to-br from-surface to-inverse-surface border border-outline-variant rounded-xl mb-sm"></div>
+<p class="text-center text-label-sm">System</p>
+</div>
+</div>
+</section>
+</div>
+<!-- Sidebar Settings (Toggles) -->
+<div class="lg:col-span-4 space-y-lg">
+<section class="bg-white p-lg rounded-2xl shadow-sm ring-1 ring-black/5">
+<h4 class="text-label-md font-bold mb-lg uppercase tracking-wider text-on-surface-variant">Notifications</h4>
+<div class="space-y-md">
+<div class="flex items-center justify-between">
+<div>
+<p class="text-label-md font-bold">Email Alerts</p>
+<p class="text-label-sm text-on-surface-variant">Daily digest of tasks</p>
+</div>
+<div class="relative inline-block w-12 h-6 transition duration-200 ease-in-out rounded-full cursor-pointer">
+<input checked="" class="sr-only toggle-checkbox" id="toggle-email" type="checkbox"/>
+<label class="toggle-label block w-full h-full bg-outline-variant rounded-full cursor-pointer after:content-[''] after:absolute after:top-1 after:left-1 after:bg-white after:w-4 after:h-4 after:rounded-full after:transition-all" for="toggle-email"></label>
+</div>
+</div>
+<div class="flex items-center justify-between">
+<div>
+<p class="text-label-md font-bold">Push Notifications</p>
+<p class="text-label-sm text-on-surface-variant">Real-time task updates</p>
+</div>
+<div class="relative inline-block w-12 h-6 transition duration-200 ease-in-out rounded-full cursor-pointer">
+<input class="sr-only toggle-checkbox" id="toggle-push" type="checkbox"/>
+<label class="toggle-label block w-full h-full bg-outline-variant rounded-full cursor-pointer after:content-[''] after:absolute after:top-1 after:left-1 after:bg-white after:w-4 after:h-4 after:rounded-full after:transition-all" for="toggle-push"></label>
+</div>
+</div>
+<div class="flex items-center justify-between">
+<div>
+<p class="text-label-md font-bold">Marketing</p>
+<p class="text-label-sm text-on-surface-variant">New feature announcements</p>
+</div>
+<div class="relative inline-block w-12 h-6 transition duration-200 ease-in-out rounded-full cursor-pointer">
+<input class="sr-only toggle-checkbox" id="toggle-market" type="checkbox"/>
+<label class="toggle-label block w-full h-full bg-outline-variant rounded-full cursor-pointer after:content-[''] after:absolute after:top-1 after:left-1 after:bg-white after:w-4 after:h-4 after:rounded-full after:transition-all" for="toggle-market"></label>
+</div>
+</div>
+</div>
+</section>
+<section class="bg-error-container/20 p-lg rounded-2xl border border-error/10">
+<h4 class="text-label-md font-bold mb-sm text-error">Danger Zone</h4>
+<p class="text-label-sm text-on-surface-variant mb-md">Permanently delete your account and all associated data.</p>
+<button class="w-full py-2 border border-error text-error font-bold text-label-md rounded-lg hover:bg-error hover:text-white transition-all active:scale-95">
+                                    Delete Account
+                                </button>
+</section>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Interactive script for switching tabs -->
+<script>
+        function switchTab(tab) {
+            const teamContent = document.getElementById('content-team');
+            const settingsContent = document.getElementById('content-settings');
+            const teamBtn = document.getElementById('tab-team-btn');
+            const settingsBtn = document.getElementById('tab-settings-btn');
+            const navTeam = document.getElementById('nav-team');
+            const navSettings = document.getElementById('nav-settings');
+            const pageTitle = document.getElementById('page-title');
+            const pageSubtitle = document.getElementById('page-subtitle');
+
+            const activeClass = "bg-white text-primary shadow-sm ring-1 ring-black/5";
+            const inactiveClass = "text-on-surface-variant hover:text-on-surface";
+            
+            const navActiveClass = "bg-primary-container text-on-primary-container";
+            const navInactiveClass = "text-on-surface-variant hover:bg-surface-variant hover:text-on-surface";
+
+            if (tab === 'team') {
+                teamContent.classList.remove('hidden');
+                settingsContent.classList.add('hidden');
+                
+                teamBtn.className = `px-8 py-2.5 rounded-lg font-label-md text-label-md transition-all duration-200 ${activeClass}`;
+                settingsBtn.className = `px-8 py-2.5 rounded-lg font-label-md text-label-md transition-all duration-200 ${inactiveClass}`;
+                
+                navTeam.className = `flex items-center gap-3 ${navActiveClass} rounded-lg px-4 py-3 transition-all duration-200 ease-in-out hover:translate-x-1`;
+                navSettings.className = `flex items-center gap-3 ${navInactiveClass} rounded-lg px-4 py-3 transition-all duration-200 ease-in-out hover:translate-x-1`;
+                
+                pageTitle.innerText = "Team Management";
+                pageSubtitle.innerText = "Manage your team members and their access levels.";
+            } else {
+                teamContent.classList.add('hidden');
+                settingsContent.classList.remove('hidden');
+                
+                settingsBtn.className = `px-8 py-2.5 rounded-lg font-label-md text-label-md transition-all duration-200 ${activeClass}`;
+                teamBtn.className = `px-8 py-2.5 rounded-lg font-label-md text-label-md transition-all duration-200 ${inactiveClass}`;
+                
+                navSettings.className = `flex items-center gap-3 ${navActiveClass} rounded-lg px-4 py-3 transition-all duration-200 ease-in-out hover:translate-x-1`;
+                navTeam.className = `flex items-center gap-3 ${navInactiveClass} rounded-lg px-4 py-3 transition-all duration-200 ease-in-out hover:translate-x-1`;
+                
+                pageTitle.innerText = "Account Settings";
+                pageSubtitle.innerText = "Configure your personal profile and application preferences.";
+            }
+        }
+
+        // Add visual feedback to buttons
+        document.querySelectorAll('button').forEach(btn => {
+            btn.addEventListener('mousedown', () => btn.classList.add('scale-95'));
+            btn.addEventListener('mouseup', () => btn.classList.remove('scale-95'));
+            btn.addEventListener('mouseleave', () => btn.classList.remove('scale-95'));
+        });
+    </script>
+</body></html>

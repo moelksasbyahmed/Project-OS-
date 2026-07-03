@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Project Details - ProjectOS</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-error": "#ffffff",
+                        "on-primary-container": "#fffbff",
+                        "error-container": "#ffdad6",
+                        "primary-fixed-dim": "#c0c1ff",
+                        "on-secondary-fixed-variant": "#653e00",
+                        "surface": "#f8f9ff",
+                        "surface-container-highest": "#d3e4fe",
+                        "outline": "#767586",
+                        "on-surface-variant": "#464554",
+                        "background": "#f8f9ff",
+                        "secondary": "#855300",
+                        "error": "#ba1a1a",
+                        "surface-variant": "#d3e4fe",
+                        "inverse-surface": "#213145",
+                        "on-tertiary-fixed-variant": "#005236",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-tint": "#494bd6",
+                        "inverse-primary": "#c0c1ff",
+                        "surface-dim": "#cbdbf5",
+                        "secondary-container": "#fea619",
+                        "on-primary-fixed": "#07006c",
+                        "primary-fixed": "#e1e0ff",
+                        "tertiary-container": "#00885d",
+                        "inverse-on-surface": "#eaf1ff",
+                        "on-error-container": "#93000a",
+                        "on-tertiary": "#ffffff",
+                        "on-secondary-fixed": "#2a1700",
+                        "tertiary": "#006c49",
+                        "on-surface": "#0b1c30",
+                        "on-tertiary-container": "#000703",
+                        "on-tertiary-fixed": "#002113",
+                        "tertiary-fixed": "#6ffbbe",
+                        "on-secondary": "#ffffff",
+                        "secondary-fixed": "#ffddb8",
+                        "on-secondary-container": "#684000",
+                        "surface-container-high": "#dce9ff",
+                        "tertiary-fixed-dim": "#4edea3",
+                        "surface-container": "#e5eeff",
+                        "surface-container-low": "#eff4ff",
+                        "on-primary-fixed-variant": "#2f2ebe",
+                        "secondary-fixed-dim": "#ffb95f",
+                        "on-primary": "#ffffff",
+                        "primary": "#4648d4",
+                        "outline-variant": "#c7c4d7",
+                        "surface-bright": "#f8f9ff",
+                        "on-background": "#0b1c30",
+                        "primary-container": "#6063ee"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "xl": "32px",
+                        "unit": "8px",
+                        "margin-mobile": "16px",
+                        "margin-desktop": "40px",
+                        "xs": "4px",
+                        "sm": "8px",
+                        "lg": "24px",
+                        "gutter": "24px",
+                        "md": "16px"
+                    },
+                    "fontFamily": {
+                        "headline-lg": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "body-md": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "display-lg": ["Inter"],
+                        "label-md": ["Inter"]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            vertical-align: middle;
+        }
+        .kanban-column { min-height: calc(100vh - 320px); }
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #c7c4d7; border-radius: 10px; }
+        .primary-gradient { background: linear-gradient(135deg, #4648d4 0%, #6063ee 100%); }
+    </style>
+</head>
+<body class="bg-surface text-on-surface flex min-h-screen">
+<!-- SideNavBar Anchor -->
+<aside class="fixed left-0 top-0 h-full w-[280px] border-r border-outline-variant bg-surface flex flex-col p-md z-50">
+<div class="mb-xl px-2">
+<h1 class="font-headline-md text-headline-md font-bold text-primary">ProjectOS</h1>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Enterprise Plan</p>
+</div>
+<nav class="flex-1 space-y-2">
+<a class="flex items-center gap-3 text-on-surface-variant hover:bg-surface-variant hover:text-on-surface rounded-lg px-4 py-3 transition-colors group" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-label-md text-label-md">Dashboard</span>
+</a>
+<!-- Projects is Active -->
+<a class="flex items-center gap-3 bg-primary-container text-on-primary-container rounded-lg px-4 py-3" href="#">
+<span class="material-symbols-outlined">folder_open</span>
+<span class="font-label-md text-label-md font-bold">Projects</span>
+</a>
+<a class="flex items-center gap-3 text-on-surface-variant hover:bg-surface-variant hover:text-on-surface rounded-lg px-4 py-3 transition-colors" href="#">
+<span class="material-symbols-outlined">assignment</span>
+<span class="font-label-md text-label-md">Tasks</span>
+</a>
+<a class="flex items-center gap-3 text-on-surface-variant hover:bg-surface-variant hover:text-on-surface rounded-lg px-4 py-3 transition-colors" href="#">
+<span class="material-symbols-outlined">group</span>
+<span class="font-label-md text-label-md">Team</span>
+</a>
+<a class="flex items-center gap-3 text-on-surface-variant hover:bg-surface-variant hover:text-on-surface rounded-lg px-4 py-3 transition-colors" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-label-md text-label-md">Settings</span>
+</a>
+</nav>
+<div class="mt-auto pt-md border-t border-outline-variant">
+<button class="w-full primary-gradient text-on-primary py-3 rounded-lg font-label-md text-label-md flex items-center justify-center gap-2 hover:opacity-90 transition-opacity">
+<span class="material-symbols-outlined">add</span>
+                New Project
+            </button>
+<div class="mt-md flex items-center gap-3 px-2">
+<img class="w-10 h-10 rounded-full border border-outline-variant" data-alt="A professional business portrait of a diverse team leader in a brightly lit, modern office environment. The lighting is soft and professional, with a clean aesthetic emphasizing organized productivity and high-end corporate culture. Warm neutral tones dominate the background with a slight blur to focus on the person." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDEyqRc0TzNc0rhe7Cquy3d8JvCRqsFcOFMBHBBGITOQ719p6NK3NEZELDzdmCKtwJxtoAqhps8-C3KwgqETDLFUEYB5F0_il_lMRozqIYMWFSb7Eok6UToKJWRjus5CnfWHeoscT2N7teLigKNqnJPs1kt_gCK-Bg8UWWRUtiLOKA4oQKgc1r_kcFNFlrBqTY_kHKNnzOyJOhWYmCNCcHVmxNWf8G1u1VtDvO5dZEJGJ1Oq45--O_QYCsj4_gWL8C0Bv3bWEw77kg"/>
+<div>
+<p class="font-label-md text-label-md font-bold">Alex Rivera</p>
+<p class="text-[12px] text-on-surface-variant">Product Lead</p>
+</div>
+</div>
+</div>
+</aside>
+<!-- Main Content Shell -->
+<main class="ml-[280px] flex-1 flex flex-col min-h-screen">
+<!-- TopNavBar Anchor -->
+<header class="flex justify-between items-center h-16 w-full px-lg sticky top-0 z-40 bg-surface/80 backdrop-blur-md border-b border-outline-variant">
+<div class="flex items-center gap-4 flex-1">
+<div class="relative w-full max-w-md">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
+<input class="w-full bg-surface-container-low border-none rounded-full pl-10 pr-4 py-2 text-label-md focus:ring-2 focus:ring-primary transition-all" placeholder="Search tasks or files..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-lg">
+<div class="flex gap-4">
+<button class="p-2 text-on-surface-variant hover:bg-surface-container-low rounded-full transition-colors relative">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-error rounded-full"></span>
+</button>
+<button class="p-2 text-on-surface-variant hover:bg-surface-container-low rounded-full transition-colors">
+<span class="material-symbols-outlined">help_outline</span>
+</button>
+</div>
+<div class="h-8 w-[1px] bg-outline-variant"></div>
+<div class="flex items-center gap-3">
+<span class="font-label-md text-label-md font-medium">Alex Rivera</span>
+<img class="w-8 h-8 rounded-full" data-alt="A professional profile photo of a person with a friendly expression, set against a minimal studio background with soft directional lighting. The aesthetic is clean, professional, and consistent with a high-end tech company atmosphere, using soft shadows and a cool-toned color palette." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA8A4AYQhtWtSfp0Cn1sen2F1ta9KZfGY9M565bY2HloDEIivLMYbnAFJYzMLMYqdqJ5InDnbQlYN-XY7o4A8tK2PkAdnfnJGkv61Qdt5ghAD9Zfoof4jUZTUd6p88WieG46PRIHtYJk1Y_qnoHDLbBczlKgqJNy2POdfJx6xY16CiFQ_MjuXX1MZdDQdBPaxnAZGLPgXqMvYS5WI6LgzVov_gSDzaMkbkTCKmOXuYq3wojZmoseSsLWwD4NioqPtk173589mD5i2w"/>
+</div>
+</div>
+</header>
+<!-- Project Dashboard Content -->
+<div class="p-xl space-y-xl">
+<!-- Header Section -->
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-md">
+<div class="space-y-2">
+<div class="flex items-center gap-3">
+<div class="p-2 bg-primary/10 text-primary rounded-lg">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">architecture</span>
+</div>
+<nav class="flex items-center text-label-sm text-on-surface-variant">
+<span>Projects</span>
+<span class="material-symbols-outlined text-[16px] mx-1">chevron_right</span>
+<span class="text-on-surface font-semibold">Project Apollo</span>
+</nav>
+</div>
+<h2 class="font-headline-lg text-headline-lg text-on-surface">Redesign E-Commerce Platform</h2>
+<div class="flex flex-wrap items-center gap-lg text-on-surface-variant pt-2">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-md">person</span>
+<span class="font-label-md text-label-md">Owner: Sarah Chen</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-md">calendar_today</span>
+<span class="font-label-md text-label-md">Due: Oct 24, 2024</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-md">monitoring</span>
+<span class="font-label-md text-label-md">Progress: 68%</span>
+</div>
+<div class="flex -space-x-2">
+<img class="w-8 h-8 rounded-full border-2 border-surface" data-alt="Portrait of a female developer with glasses, smiling warmly, in a high-tech office with neon accents. High resolution, professional lighting, cinematic depth of field." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAuvYF8A_xu7MTS81ikKYPkx-bCWuzYOcj1w-oaqCqO7ux3fpU5EQBXH64Bj_wrmTEGb1DhOX4Y-GSul4QSeYhZrQG4u4y3sY_0dnPicIh51Gn7I5qVBEGN4jK2eOo-YMJAeXImQrotP9CS3TSInSHIIL9A14Q4QFLCLmKsUPXnDyAIYCLQgauMQKlVWwAF4s6EB0tItw0nUY-65YAUvj09RBrYIBU-rIh4jHaLGtuRPhWFJCWIPh31Bk9EYT5iyIKsSSUWpXDkg_Q"/>
+<img class="w-8 h-8 rounded-full border-2 border-surface" data-alt="Close-up of a creative designer with artistic flair, neutral background, soft sunlight, professional photography, modern corporate style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD4-xLxmpeyRZbzn61zeUwE5PwFLMA2KK57p89PUl5dFYZh86EYdplHRQHii-yHdLZBPGeEADXrWEmSlnrTVfcHlCE5vz85B2mpjS9ngMBT4k1jBeqwMCtjyoDm1v155ShvJbIcwKI27JPfVsi8VgQWo08ts2dNJArCLbG5WDpa6eeN2GCer35HYok4_xcUqifuwUTkPYKK8u1OE1LH0-vJNgJ5NbDsV9NFG1tvua2AwNBugSuNa3NpHpNcHfi3_XVirjti1Hj6Jsw"/>
+<img class="w-8 h-8 rounded-full border-2 border-surface" data-alt="Headshot of a project manager looking confident, soft blue background, professional office environment, high-end photography, clean aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBg-EYwSNPzWYGduxAyxIldjY2iXksZnR34qtGutjDxJfj42XsWs0pvOryQtktJqITSUi6-gs4jxLZyEPmQfBfaa-mO27h7FHXA79QY9ksFsVJSMungkB1xAsKaqbOL_g5Lj0e8dXsF42oa6lSHZ17RBbt12XzAhrg72hoXOx5lzAnpcsgyHIWB3yQCGTVZn5cih4vSnqoJtW2H27NQ8_5lMrlCxDuy2O-3goWTn6ZOh61mG4-0g5T7pWmtKXCZrV7ttZU-YjT435E"/>
+<div class="w-8 h-8 rounded-full bg-surface-container-highest border-2 border-surface flex items-center justify-center text-[10px] font-bold text-on-surface">+4</div>
+</div>
+</div>
+</div>
+<div class="flex gap-3">
+<button class="px-4 py-2 rounded-lg border border-outline-variant font-label-md text-label-md hover:bg-surface-container-low transition-colors flex items-center gap-2">
+<span class="material-symbols-outlined">filter_list</span>
+                        Filters
+                    </button>
+<button class="px-4 py-2 rounded-lg primary-gradient text-on-primary font-label-md text-label-md shadow-lg shadow-primary/20 flex items-center gap-2">
+<span class="material-symbols-outlined">add</span>
+                        Add Task
+                    </button>
+</div>
+</div>
+<!-- Kanban Board -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-lg">
+<!-- To Do Column -->
+<div class="flex flex-col gap-md">
+<div class="flex items-center justify-between px-2">
+<div class="flex items-center gap-2">
+<h3 class="font-label-md text-label-md font-bold text-on-surface uppercase tracking-wider">To Do</h3>
+<span class="bg-surface-container-highest px-2 py-0.5 rounded-full text-[12px] font-bold">4</span>
+</div>
+<button class="text-on-surface-variant hover:text-on-surface"><span class="material-symbols-outlined">more_horiz</span></button>
+</div>
+<div class="kanban-column space-y-md custom-scrollbar overflow-y-auto">
+<!-- Task Card 1 -->
+<div class="bg-surface-container-lowest border border-outline-variant p-md rounded-xl hover:shadow-md transition-all group cursor-grab active:cursor-grabbing">
+<div class="flex justify-between items-start mb-3">
+<span class="bg-secondary-fixed text-on-secondary-fixed px-2 py-0.5 rounded-full text-[10px] font-bold uppercase">Amber</span>
+<span class="material-symbols-outlined text-outline-variant group-hover:text-primary transition-colors">drag_indicator</span>
+</div>
+<h4 class="font-label-md text-label-md font-semibold text-on-surface mb-2">Refine user persona interviews</h4>
+<div class="flex items-center justify-between mt-4">
+<div class="flex items-center gap-1 text-on-surface-variant">
+<span class="material-symbols-outlined text-sm">chat_bubble</span>
+<span class="text-[12px]">3</span>
+</div>
+<img class="w-6 h-6 rounded-full" data-alt="A small, circular avatar portrait of a creative professional with a modern haircut and stylish glasses. The background is a clean, neutral gray, emphasizing the person's friendly and focused expression. High-end digital photography style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuANw5OjRmp3pTq2PnnTRfhAo0uf5FGk9mPgExbq87xpaCPeQbnjEOQ1M3k983IhZF8qnar1EcvIhlqGBXyFcF7jnD7TsW3RWJhcOZWlLVg7xZZe8f78w_ybNkWw19JPYHSvaudmCYhbXQ4ccSuy2otcQr5ktnFcMVPPk5KDdc8ibCZ6s64Cib6eFQpzUD10rz4ktqH48K-F1jJOY93rjSxX1lA3srNNoC4wPYTav6__JGPzEd-jLmNGIbbmVCVAGV1d6L4sy0F6qMs"/>
+</div>
+</div>
+<!-- Task Card 2 -->
+<div class="bg-surface-container-lowest border border-outline-variant p-md rounded-xl hover:shadow-md transition-all group cursor-grab">
+<div class="flex justify-between items-start mb-3">
+<span class="bg-error-container text-on-error-container px-2 py-0.5 rounded-full text-[10px] font-bold uppercase">Red</span>
+<span class="material-symbols-outlined text-outline-variant group-hover:text-primary transition-colors">drag_indicator</span>
+</div>
+<h4 class="font-label-md text-label-md font-semibold text-on-surface mb-2">Finalize checkout flow wireframes</h4>
+<div class="flex items-center justify-between mt-4">
+<div class="flex items-center gap-1 text-on-surface-variant">
+<span class="material-symbols-outlined text-sm">attach_file</span>
+<span class="text-[12px]">12</span>
+</div>
+<img class="w-6 h-6 rounded-full" data-alt="A portrait of a male tech worker in his 30s, featuring a casual yet professional look with a soft-focus office background. The lighting is bright and natural, reflecting a positive and collaborative work environment." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD8Yla7c7Sg6hjrN6c5CqPz4MWspS92PTNczc0T9Bkb3N1UUB7FP3mfyRWKInF-_x-4UG2Fdkj7sGOkx-EZujAP_7tq_BqezsvYe0YDjqaFeEZvlwjWp_iZwIZbO-Iyobs4F-vBOKUtHikU-v8r1_mxR-VgJhsQ0rf-jaldSC_wlOyeE6Tujsy4VfWTEuHMKnE---J4F1PFo97YiOma0S0xYARjtjxgOyV6ZkaVKO26EK8mBqq-BdUVJ5pE0XJFmhrB4L-MSZlUdNY"/>
+</div>
+</div>
+</div>
+</div>
+<!-- In Progress Column -->
+<div class="flex flex-col gap-md">
+<div class="flex items-center justify-between px-2">
+<div class="flex items-center gap-2">
+<h3 class="font-label-md text-label-md font-bold text-on-surface uppercase tracking-wider">In Progress</h3>
+<span class="bg-primary/20 text-primary px-2 py-0.5 rounded-full text-[12px] font-bold">2</span>
+</div>
+<button class="text-on-surface-variant hover:text-on-surface"><span class="material-symbols-outlined">more_horiz</span></button>
+</div>
+<div class="kanban-column space-y-md custom-scrollbar overflow-y-auto">
+<!-- Task Card 3 -->
+<div class="bg-surface-container-lowest border-2 border-primary p-md rounded-xl shadow-lg shadow-primary/5 group cursor-grab">
+<div class="flex justify-between items-start mb-3">
+<span class="bg-secondary-fixed text-on-secondary-fixed px-2 py-0.5 rounded-full text-[10px] font-bold uppercase">Amber</span>
+<span class="material-symbols-outlined text-primary">drag_indicator</span>
+</div>
+<h4 class="font-label-md text-label-md font-semibold text-on-surface mb-2">Develop interactive prototype v1</h4>
+<div class="mt-3 bg-surface-container rounded-full h-1.5 overflow-hidden">
+<div class="h-full primary-gradient w-[65%]"></div>
+</div>
+<div class="flex items-center justify-between mt-4">
+<div class="flex items-center gap-1 text-on-surface-variant">
+<span class="material-symbols-outlined text-sm">schedule</span>
+<span class="text-[12px]">2 days left</span>
+</div>
+<img class="w-6 h-6 rounded-full" data-alt="A professional headshot of a female executive in a modern, glass-walled office. The image should convey leadership and expertise with a bright, airy aesthetic and professional color correction." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDhFHBeHy4XuhGra58EVFUBwHQpZT29c7birhr-Bb1XSq5LnRwstbG9r0mPw_1oYYy_l4j4hinINY-NMiOnBtrCunw4m9Lr3MvQg4V6UCleH0g9TwBbKiHap1ZprL2xxThGp4cryCrEZ0X6oYpnL2msViFpnFuitK7mbZaXILe80aYDTSSJNaJJs4U06got0D60w_rERioRoO2vP6lINSd_16lJ780BDsA30C1aCyV3AJloV3u8HI0PFenEQ1G871KLH5JnefCjVTY"/>
+</div>
+</div>
+</div>
+</div>
+<!-- Done Column -->
+<div class="flex flex-col gap-md">
+<div class="flex items-center justify-between px-2">
+<div class="flex items-center gap-2">
+<h3 class="font-label-md text-label-md font-bold text-on-surface uppercase tracking-wider">Done</h3>
+<span class="bg-tertiary-container/20 text-tertiary-container px-2 py-0.5 rounded-full text-[12px] font-bold">8</span>
+</div>
+<button class="text-on-surface-variant hover:text-on-surface"><span class="material-symbols-outlined">more_horiz</span></button>
+</div>
+<div class="kanban-column space-y-md custom-scrollbar overflow-y-auto opacity-80 hover:opacity-100 transition-opacity">
+<!-- Task Card 4 -->
+<div class="bg-surface-container-lowest border border-outline-variant p-md rounded-xl group cursor-grab line-through text-on-surface-variant">
+<div class="flex justify-between items-start mb-3">
+<span class="bg-tertiary-fixed text-on-tertiary-fixed px-2 py-0.5 rounded-full text-[10px] font-bold uppercase">Emerald</span>
+<span class="material-symbols-outlined text-tertiary">check_circle</span>
+</div>
+<h4 class="font-label-md text-label-md font-semibold mb-2">Market research analysis report</h4>
+<div class="flex items-center justify-between mt-4">
+<div class="flex items-center gap-1 text-tertiary">
+<span class="material-symbols-outlined text-sm">verified</span>
+<span class="text-[12px]">Approved</span>
+</div>
+<div class="flex -space-x-1">
+<img class="w-6 h-6 rounded-full border border-surface" data-alt="Avatar of a junior designer, colorful background, bright lighting, high quality." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCq5GRjXAFK7qW8HcEf7rZtQ83mV7_eSbD40udlQVU-CDzFPDrR2_AAuVcJGUl53zM6_2yGs8OWsF6NOkL_DLKWLn3vabl1SKDmeeIhYJ00i20n9tU5bz1On-MMnHtCUH5LNH0VvQMKVP-VCbKoB773W5xDdmfX9Z6z3dmCMNhEDbkZzD7Om62M1ovdvdLdCmUR0V4eZOjKe-ca6soH_N9qyE2IsKHSz1G1Fd75q349FkHIJdEWFYhjjuueT8IX7t2Wy2ovFrqnfkw"/>
+<img class="w-6 h-6 rounded-full border border-surface" data-alt="Avatar of a senior developer, professional setting, sharp focus." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDaLjWb-szs7VSSl5s6c_nkL0g_GHO33cBq-8p5Qq1l-SlLEmELqG4J1iAuT7Dd9KMfFQ1DliRv5zCELQ0e5D2-wlryPpfy5dW_foJg5j2i3CmvqbOvSNfVz2cJd2o21Jwxv8Z0wxSEjSQbexK9Wy-TQUnktmMmjudJPD2VqZYVBTktgIIp0NrgwNb_WTI45LzlfdgzBztwksamkJkgRmZrdyMRXprW8uY5BKnRNXj_xhSPcDauOg7D39a_04n14eI3JW24sz0lEkQ"/>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<script>
+        // Simple Micro-interactions for Drag and Drop feel
+        document.querySelectorAll('.kanban-column > div').forEach(card => {
+            card.addEventListener('mousedown', () => {
+                card.style.transform = 'scale(0.98) rotate(1deg)';
+                card.style.zIndex = '100';
+            });
+            card.addEventListener('mouseup', () => {
+                card.style.transform = 'scale(1) rotate(0deg)';
+                card.style.zIndex = '1';
+            });
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'scale(1) rotate(0deg)';
+                card.style.zIndex = '1';
+            });
+        });
+
+        // Search Bar Focus Effect
+        const searchInput = document.querySelector('input[type="text"]');
+        searchInput.addEventListener('focus', () => {
+            searchInput.parentElement.classList.add('shadow-md');
+        });
+        searchInput.addEventListener('blur', () => {
+            searchInput.parentElement.classList.remove('shadow-md');
+        });
+    </script>
+</body></html>

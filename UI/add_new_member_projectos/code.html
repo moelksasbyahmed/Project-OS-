@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Add New Member | ProjectOS</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-container-high": "#dce9ff",
+                    "secondary-fixed": "#ffddb8",
+                    "tertiary-container": "#00885d",
+                    "secondary-fixed-dim": "#ffb95f",
+                    "on-primary": "#ffffff",
+                    "surface-bright": "#f8f9ff",
+                    "inverse-on-surface": "#eaf1ff",
+                    "primary-container": "#6063ee",
+                    "surface-container-low": "#eff4ff",
+                    "tertiary-fixed": "#6ffbbe",
+                    "on-primary-fixed-variant": "#2f2ebe",
+                    "tertiary": "#006c49",
+                    "inverse-surface": "#213145",
+                    "surface-container-highest": "#d3e4fe",
+                    "on-secondary-container": "#684000",
+                    "tertiary-fixed-dim": "#4edea3",
+                    "secondary-container": "#fea619",
+                    "on-tertiary-container": "#000703",
+                    "surface-variant": "#d3e4fe",
+                    "on-secondary": "#ffffff",
+                    "surface-tint": "#494bd6",
+                    "surface-container": "#e5eeff",
+                    "on-tertiary": "#ffffff",
+                    "primary": "#4648d4",
+                    "error-container": "#ffdad6",
+                    "on-surface-variant": "#464554",
+                    "inverse-primary": "#c0c1ff",
+                    "on-error": "#ffffff",
+                    "outline": "#767586",
+                    "outline-variant": "#c7c4d7",
+                    "on-surface": "#0b1c30",
+                    "on-secondary-fixed": "#2a1700",
+                    "on-background": "#0b1c30",
+                    "on-primary-fixed": "#07006c",
+                    "error": "#ba1a1a",
+                    "on-error-container": "#93000a",
+                    "primary-fixed-dim": "#c0c1ff",
+                    "background": "#f8f9ff",
+                    "primary-fixed": "#e1e0ff",
+                    "on-primary-container": "#fffbff",
+                    "on-tertiary-fixed-variant": "#005236",
+                    "on-secondary-fixed-variant": "#653e00",
+                    "surface-dim": "#cbdbf5"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "margin-desktop": "40px",
+                    "sm": "8px",
+                    "lg": "24px",
+                    "margin-mobile": "16px",
+                    "xl": "32px",
+                    "unit": "8px",
+                    "gutter": "24px",
+                    "xs": "4px",
+                    "md": "16px"
+            },
+            "fontFamily": {
+                    "label-sm": ["Inter"],
+                    "body-md": ["Inter"],
+                    "label-md": ["Inter"],
+                    "headline-md": ["Inter"],
+                    "headline-lg-mobile": ["Inter"],
+                    "headline-lg": ["Inter"],
+                    "display-lg": ["Inter"],
+                    "body-lg": ["Inter"]
+            },
+            "fontSize": {
+                    "label-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "label-md": ["14px", {"lineHeight": "20px", "fontWeight": "500"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            background-color: #f8f9ff;
+            color: #0b1c30;
+            font-family: 'Inter', sans-serif;
+        }
+        .primary-gradient {
+            background: linear-gradient(135deg, #4648d4 0%, #6063ee 100%);
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #c7c4d7;
+            border-radius: 10px;
+        }
+        .glass-dropdown {
+            backdrop-filter: blur(8px);
+            background: rgba(255, 255, 255, 0.95);
+        }
+    </style>
+</head>
+<body class="overflow-hidden">
+<!-- Shell Structure -->
+<div class="flex h-screen w-full">
+<!-- SideNavBar Component -->
+<aside class="fixed left-0 top-0 h-full w-[280px] bg-surface border-r border-outline-variant flex flex-col p-md z-50">
+<div class="mb-xl px-4">
+<h1 class="font-headline-md text-headline-md font-bold text-primary">ProjectOS</h1>
+<p class="font-label-sm text-label-sm text-on-surface-variant opacity-70">Enterprise Plan</p>
+</div>
+<nav class="flex-1 space-y-2 overflow-y-auto custom-scrollbar">
+<!-- Dashboard -->
+<a class="flex items-center gap-3 text-on-surface-variant hover:bg-surface-variant hover:text-on-surface rounded-lg px-4 py-3 transition-all duration-200 ease-in-out hover:translate-x-1" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-label-md text-label-md">Dashboard</span>
+</a>
+<!-- Projects -->
+<a class="flex items-center gap-3 text-on-surface-variant hover:bg-surface-variant hover:text-on-surface rounded-lg px-4 py-3 transition-all duration-200 ease-in-out hover:translate-x-1" href="#">
+<span class="material-symbols-outlined">folder_open</span>
+<span class="font-label-md text-label-md">Projects</span>
+</a>
+<!-- Tasks -->
+<a class="flex items-center gap-3 text-on-surface-variant hover:bg-surface-variant hover:text-on-surface rounded-lg px-4 py-3 transition-all duration-200 ease-in-out hover:translate-x-1" href="#">
+<span class="material-symbols-outlined">assignment</span>
+<span class="font-label-md text-label-md">Tasks</span>
+</a>
+<!-- Team (Active) -->
+<a class="flex items-center gap-3 bg-primary-container text-on-primary-container rounded-lg px-4 py-3 transition-all duration-200 ease-in-out hover:translate-x-1" href="#">
+<span class="material-symbols-outlined">group</span>
+<span class="font-label-md text-label-md">Team</span>
+</a>
+<!-- Settings -->
+<a class="flex items-center gap-3 text-on-surface-variant hover:bg-surface-variant hover:text-on-surface rounded-lg px-4 py-3 transition-all duration-200 ease-in-out hover:translate-x-1" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-label-md text-label-md">Settings</span>
+</a>
+</nav>
+<div class="mt-auto pt-md border-t border-outline-variant">
+<div class="flex items-center gap-3 px-4 py-2">
+<img class="w-10 h-10 rounded-full object-cover" data-alt="A professional headshot of a team manager in a clean minimalist office, soft natural lighting, high-end photography, wearing a dark professional sweater, professional atmosphere, minimalist aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDZGCU3HdSQve8vyYjZWY72-kJDC5FFJ1gZTgBax9V40d3XJCoVKY0e141Lup6QZVOprhyO-zSfdWHcViiJCNNbYfOXFQWvf9jdI0jydm-qxIjtrBflqmKsSfbZmhJEIbugp7YsviqOSzER708dFQLbxFH0nPSe8aVqvkbFNfnUi3CSU4ukYMqgFkzkQJbF05MMZuOlHA-L-PtOr_Y8rVJu-gP9EFEkh469UCMjAqdHq0bJ-SBR9D0248vTc37Bes7-Sw8WxDn4Oq0"/>
+<div class="overflow-hidden">
+<p class="font-label-md text-label-md font-bold truncate text-on-surface">Alex Rivera</p>
+<p class="font-label-sm text-label-sm text-on-surface-variant truncate">Admin</p>
+</div>
+</div>
+</div>
+</aside>
+<!-- Main Canvas -->
+<main class="flex-1 ml-[280px] flex flex-col h-full bg-background relative overflow-y-auto">
+<!-- TopNavBar Component -->
+<header class="flex justify-between items-center h-16 w-full px-lg sticky top-0 z-40 bg-surface/80 backdrop-blur-md">
+<div class="flex items-center gap-lg">
+<div class="relative w-72">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant scale-75">search</span>
+<input class="w-full bg-surface-container-low border-none rounded-full py-2 pl-10 pr-4 text-sm focus:ring-2 focus:ring-primary/20 transition-all" placeholder="Search team or projects..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-md">
+<button class="w-10 h-10 flex items-center justify-center rounded-full text-on-surface-variant hover:bg-surface-container-low transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-full text-on-surface-variant hover:bg-surface-container-low transition-colors">
+<span class="material-symbols-outlined">help_outline</span>
+</button>
+<div class="h-8 w-[1px] bg-outline-variant mx-2"></div>
+<button class="px-4 py-2 primary-gradient text-white rounded-lg font-label-md text-label-md transition-transform active:scale-95">
+                        New Project
+                    </button>
+</div>
+</header>
+<!-- Content Area -->
+<section class="p-xl max-w-5xl mx-auto w-full pb-32">
+<!-- Breadcrumbs & Header -->
+<div class="mb-lg">
+<div class="flex items-center gap-2 text-on-surface-variant mb-2">
+<span class="font-label-sm text-label-sm">Team</span>
+<span class="material-symbols-outlined text-xs">chevron_right</span>
+<span class="font-label-sm text-label-sm text-primary">Add Member</span>
+</div>
+<h2 class="font-headline-lg text-headline-lg text-on-surface">Add New Member</h2>
+<p class="font-body-md text-body-md text-on-surface-variant mt-2">Invite someone to join your workspace and define their access level.</p>
+</div>
+<!-- Form Grid (Bento Style) -->
+<div class="grid grid-cols-12 gap-gutter">
+<!-- Invitation Form Card -->
+<div class="col-span-12 lg:col-span-7 bg-white rounded-xl border border-outline-variant p-lg">
+<h3 class="font-headline-md text-headline-md mb-lg">General Information</h3>
+<div class="space-y-xl">
+<!-- Email Input -->
+<div class="space-y-2">
+<label class="block font-label-md text-label-md text-on-surface" for="email">Email Address</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline scale-75">mail</span>
+<input class="w-full bg-white border border-outline-variant rounded-lg py-3 pl-10 pr-4 font-body-md text-body-md focus:border-primary focus:ring-2 focus:ring-primary/10 transition-all outline-none" id="email" placeholder="colleague@company.com" type="email"/>
+</div>
+<p class="text-[11px] text-on-surface-variant mt-1">An invitation link will be sent to this email address.</p>
+</div>
+<!-- Department Selection -->
+<div class="space-y-2">
+<label class="block font-label-md text-label-md text-on-surface">Department</label>
+<div class="relative">
+<select class="w-full bg-white border border-outline-variant rounded-lg py-3 pl-4 pr-10 font-body-md text-body-md appearance-none focus:border-primary focus:ring-2 focus:ring-primary/10 transition-all outline-none">
+<option disabled="" selected="" value="">Select a department</option>
+<option value="eng">Engineering</option>
+<option value="design">Product &amp; Design</option>
+<option value="marketing">Marketing</option>
+<option value="ops">Operations</option>
+<option value="hr">People &amp; Culture</option>
+</select>
+<span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-outline pointer-events-none">expand_more</span>
+</div>
+</div>
+<!-- Project Tagging (Simple) -->
+<div class="space-y-2">
+<label class="block font-label-md text-label-md text-on-surface">Assign to Initial Projects</label>
+<div class="flex flex-wrap gap-2 p-3 bg-surface-container-low rounded-lg border border-outline-variant/50">
+<span class="inline-flex items-center gap-1 bg-white border border-outline-variant px-3 py-1 rounded-full text-label-sm font-label-sm text-primary">
+                                        Project Apollo <button class="material-symbols-outlined text-xs hover:text-error">close</button>
+</span>
+<span class="inline-flex items-center gap-1 bg-white border border-outline-variant px-3 py-1 rounded-full text-label-sm font-label-sm text-primary">
+                                        Q4 Roadmap <button class="material-symbols-outlined text-xs hover:text-error">close</button>
+</span>
+<button class="inline-flex items-center gap-1 bg-primary/10 px-3 py-1 rounded-full text-label-sm font-label-sm text-primary hover:bg-primary/20 transition-colors">
+<span class="material-symbols-outlined text-xs">add</span> Add
+                                    </button>
+</div>
+</div>
+</div>
+</div>
+<!-- Role Description Card -->
+<div class="col-span-12 lg:col-span-5 bg-surface-container-low rounded-xl border border-outline-variant p-lg flex flex-col">
+<h3 class="font-headline-md text-headline-md mb-lg">Access Control</h3>
+<!-- Role Selection List -->
+<div class="space-y-md flex-1">
+<!-- Admin Role -->
+<label class="group relative flex items-start gap-4 p-4 rounded-xl border border-outline-variant bg-white cursor-pointer hover:border-primary/50 transition-all has-[:checked]:border-primary has-[:checked]:bg-primary/[0.02]">
+<input class="mt-1 text-primary focus:ring-primary border-outline-variant" name="role" type="radio" value="admin"/>
+<div class="flex-1">
+<div class="flex justify-between items-center mb-1">
+<span class="font-label-md text-label-md font-bold text-on-surface">Admin</span>
+<span class="bg-secondary-container/10 text-secondary-container px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider">Full Access</span>
+</div>
+<p class="font-label-sm text-label-sm text-on-surface-variant leading-relaxed">Complete control over the workspace, members, and billing settings.</p>
+</div>
+</label>
+<!-- Editor Role -->
+<label class="group relative flex items-start gap-4 p-4 rounded-xl border border-outline-variant bg-white cursor-pointer hover:border-primary/50 transition-all has-[:checked]:border-primary has-[:checked]:bg-primary/[0.02]">
+<input checked="" class="mt-1 text-primary focus:ring-primary border-outline-variant" name="role" type="radio" value="editor"/>
+<div class="flex-1">
+<div class="flex justify-between items-center mb-1">
+<span class="font-label-md text-label-md font-bold text-on-surface">Editor</span>
+<span class="bg-primary-container/10 text-primary-container px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider">Standard</span>
+</div>
+<p class="font-label-sm text-label-sm text-on-surface-variant leading-relaxed">Can create, edit and delete projects and tasks. Cannot manage workspace settings.</p>
+</div>
+</label>
+<!-- Member Role -->
+<label class="group relative flex items-start gap-4 p-4 rounded-xl border border-outline-variant bg-white cursor-pointer hover:border-primary/50 transition-all has-[:checked]:border-primary has-[:checked]:bg-primary/[0.02]">
+<input class="mt-1 text-primary focus:ring-primary border-outline-variant" name="role" type="radio" value="member"/>
+<div class="flex-1">
+<div class="flex justify-between items-center mb-1">
+<span class="font-label-md text-label-md font-bold text-on-surface">Member</span>
+<span class="bg-tertiary-container/10 text-tertiary-container px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider">Restricted</span>
+</div>
+<p class="font-label-sm text-label-sm text-on-surface-variant leading-relaxed">Can view all projects and participate in assigned tasks and discussions.</p>
+</div>
+</label>
+<!-- Guest Role -->
+<label class="group relative flex items-start gap-4 p-4 rounded-xl border border-outline-variant bg-white cursor-pointer hover:border-primary/50 transition-all has-[:checked]:border-primary has-[:checked]:bg-primary/[0.02]">
+<input class="mt-1 text-primary focus:ring-primary border-outline-variant" name="role" type="radio" value="guest"/>
+<div class="flex-1">
+<div class="flex justify-between items-center mb-1">
+<span class="font-label-md text-label-md font-bold text-on-surface">Guest</span>
+<span class="bg-outline/10 text-outline px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider">Single Project</span>
+</div>
+<p class="font-label-sm text-label-sm text-on-surface-variant leading-relaxed">Access limited to specific projects. Ideal for clients or contractors.</p>
+</div>
+</label>
+</div>
+</div>
+<!-- Permissions Summary Detail (Bento Small) -->
+<div class="col-span-12 bg-white rounded-xl border border-outline-variant p-lg">
+<div class="flex items-center gap-md">
+<div class="w-12 h-12 bg-primary/5 rounded-full flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">verified_user</span>
+</div>
+<div>
+<h4 class="font-label-md text-label-md font-bold text-on-surface">Identity &amp; Security Note</h4>
+<p class="font-label-sm text-label-sm text-on-surface-variant">The invited user will be required to enable Two-Factor Authentication (2FA) if enforced by your workspace policy.</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Footer Action Bar -->
+<div class="fixed bottom-0 right-0 left-[280px] bg-white/80 backdrop-blur-lg border-t border-outline-variant p-md px-xl flex justify-between items-center z-30">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-on-surface-variant text-sm">info</span>
+<p class="text-label-sm font-label-sm text-on-surface-variant">1 invitation remains for your current plan cycle.</p>
+</div>
+<div class="flex gap-4">
+<button class="px-6 py-2 rounded-lg font-label-md text-label-md border border-outline-variant text-on-surface hover:bg-surface-variant transition-colors">
+                            Cancel
+                        </button>
+<button class="px-8 py-2 rounded-lg font-label-md text-label-md primary-gradient text-white shadow-lg shadow-primary/20 hover:scale-[1.02] active:scale-[0.98] transition-all">
+                            Send Invitation
+                        </button>
+</div>
+</div>
+</section>
+</main>
+</div>
+<!-- Micro-interaction Script -->
+<script>
+        // Simple visual feedback for the department selector
+        const select = document.querySelector('select');
+        select.addEventListener('change', (e) => {
+            if (e.target.value) {
+                e.target.classList.add('border-primary');
+            }
+        });
+
+        // Basic form animation entry
+        document.addEventListener('DOMContentLoaded', () => {
+            const cards = document.querySelectorAll('.col-span-12');
+            cards.forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                setTimeout(() => {
+                    card.style.transition = 'all 0.5s ease-out';
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, 100 * index);
+            });
+        });
+    </script>
+</body></html>
