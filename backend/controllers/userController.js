@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
+const bcrypt = require('bcryptjs');
 const User = require('../models/User');
+const { signToken } = require('../utils/jwt');
 
 const createErrorResponse = (response, statusCode, message) => {
   return response.status(statusCode).json({
@@ -25,10 +27,10 @@ const createSuccessResponse = (response, statusCode, message, data, results) => 
 
 const createUser = async (request, response) => {
   try {
-    const { name, email, role } = request.body;
+    const { name, email, password, role } = request.body;
 
-    if (!name || !email) {
-      return createErrorResponse(response, 400, 'Name and email are required');
+    if (!name || !email || !password) {
+      return createErrorResponse(response, 400, 'Name, email, and password are required');
     }
 
     const existingUser = await User.findOne({ email }).lean();
@@ -37,13 +39,27 @@ const createUser = async (request, response) => {
       return createErrorResponse(response, 400, 'Email already exists');
     }
 
-    const user = await User.create({ name, email, role });
+    if (role === 'project_manager') {
+      const managerCount = await User.countDocuments({ role: 'project_manager' });
+
+      if (managerCount > 0) {
+        return createErrorResponse(response, 403, 'Only an existing project manager can create manager accounts');
+      }
+    }
+
+    const user = await User.create({ name, email, password, role });
+    const token = signToken(user);
+    const userData = user.toObject();
+    delete userData.password;
 
     return createSuccessResponse(
       response,
       201,
       'User created successfully',
-      user.toObject()
+      {
+        user: userData,
+        token
+      }
     );
   } catch (error) {
 
@@ -97,10 +113,16 @@ const updateUser = async (request, response) => {
       return createErrorResponse(response, 400, 'Invalid user ID');
     }
 
-    const { name, email, role } = request.body;
+    const { name, email, password, role } = request.body;
+
+    if (role !== undefined && request.user?.role !== 'project_manager') {
+      return createErrorResponse(response, 403, 'Only a project manager can change roles');
+    }
+
     const updatePayload = {
       ...(name !== undefined && { name }),
       ...(email !== undefined && { email }),
+      ...(password !== undefined && { password: bcrypt.hashSync(password, 10) }),
       ...(role !== undefined && { role })
     };
 
@@ -130,6 +152,10 @@ const updateUser = async (request, response) => {
         runValidators: true
       }
     ).lean();
+
+    if (updatedUser) {
+      delete updatedUser.password;
+    }
 
     if (!updatedUser) {
       return createErrorResponse(response, 404, 'User not found');
