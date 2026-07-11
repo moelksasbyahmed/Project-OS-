@@ -19,9 +19,10 @@ const connectDatabase = async () => {
     mongoose.connection.on('disconnected', () => {
       console.log('MongoDB disconnected');
     });
+ console.log(`Connecting to MongoDB at ${MONGO_URI}...`); 
 
     await mongoose.connect(MONGO_URI,{
-        DB_NAME: process.env.DB_NAME,
+    
     });
   } catch (error) {
     console.error(`Database connection failed: ${error.message}`);
