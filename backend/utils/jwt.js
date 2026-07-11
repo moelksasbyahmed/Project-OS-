@@ -1,25 +1,21 @@
-const jwt = require('jsonwebtoken');
+const JWT = require('jsonwebtoken'); 
 
-const signToken = (user) => {
-  const secret = process.env.JWT_SECRET;
 
-  if (!secret) {
-    throw new Error('JWT secret is not configured');
-  }
-
-  return jwt.sign(
+const generateToken = (user) => { 
+     return JWT.sign({
+        id: user._id, 
+        email: user.email,
+        role: user.role 
+     },
+    process.env.JWT_SECRET, 
     {
-      id: user._id.toString(),
-      email: user.email,
-      role: user.role
-    },
-    secret,
-    {
-      expiresIn: process.env.JWT_EXPIRES_IN || '7d'
+        issuer: 'projectflow', 
+        expiresIn: '2h',
+        
     }
-  );
-};
+    )
 
-module.exports = {
-  signToken
-};
+
+
+}
+module.exports = { generateToken } 
