@@ -1,7 +1,5 @@
 const mongoose = require('mongoose');
-const bcrypt = require('bcryptjs');
-const User = require('../models/User');
-const { signToken } = require('../utils/jwt');
+const { User } = require('../models/User');
 
 const createErrorResponse = (response, statusCode, message) => {
   return response.status(statusCode).json({
@@ -25,48 +23,6 @@ const createSuccessResponse = (response, statusCode, message, data, results) => 
   return response.status(statusCode).json(payload);
 };
 
-const createUser = async (request, response) => {
-  try {
-    const { name, email, password, role } = request.body;
-
-    if (!name || !email || !password) {
-      return createErrorResponse(response, 400, 'Name, email, and password are required');
-    }
-
-    const existingUser = await User.findOne({ email }).lean();
-
-    if (existingUser) {
-      return createErrorResponse(response, 400, 'Email already exists');
-    }
-
-    if (role === 'project_manager') {
-      const managerCount = await User.countDocuments({ role: 'project_manager' });
-
-      if (managerCount > 0) {
-        return createErrorResponse(response, 403, 'Only an existing project manager can create manager accounts');
-      }
-    }
-
-    const user = await User.create({ name, email, password, role });
-    const token = signToken(user);
-    const userData = user.toObject();
-    delete userData.password;
-
-    return createSuccessResponse(
-      response,
-      201,
-      'User created successfully',
-      {
-        user: userData,
-        token
-      }
-    );
-  } catch (error) {
-
-    return createErrorResponse(response, 500, 'Internal server error');
-  }
-};
-
 const getAllUsers = async (request, response) => {
   try {
     const users = await User.find({}).lean();
@@ -75,9 +31,7 @@ const getAllUsers = async (request, response) => {
       response,
       200,
       'Users retrieved successfully',
-      {
-        users
-      },
+      { users },
       users.length
     );
   } catch (error) {
@@ -113,16 +67,10 @@ const updateUser = async (request, response) => {
       return createErrorResponse(response, 400, 'Invalid user ID');
     }
 
-    const { name, email, password, role } = request.body;
-
-    if (role !== undefined && request.user?.role !== 'project_manager') {
-      return createErrorResponse(response, 403, 'Only a project manager can change roles');
-    }
-
+    const { name, email, role } = request.body;
     const updatePayload = {
       ...(name !== undefined && { name }),
-      ...(email !== undefined && { email }),
-      ...(password !== undefined && { password: bcrypt.hashSync(password, 10) }),
+      ...(email !== undefined && { email: email.toLowerCase().trim() }),
       ...(role !== undefined && { role })
     };
 
@@ -153,20 +101,11 @@ const updateUser = async (request, response) => {
       }
     ).lean();
 
-    if (updatedUser) {
-      delete updatedUser.password;
-    }
-
     if (!updatedUser) {
       return createErrorResponse(response, 404, 'User not found');
     }
 
-    return createSuccessResponse(
-      response,
-      200,
-      'User updated successfully',
-      updatedUser
-    );
+    return createSuccessResponse(response, 200, 'User updated successfully', updatedUser);
   } catch (error) {
     if (error.code === 11000) {
       return createErrorResponse(response, 400, 'Email already exists');
@@ -200,10 +139,58 @@ const deleteUser = async (request, response) => {
   }
 };
 
+const getCurrentUser = async (request, response) => {
+  try {
+    const user = await User.findById(request.user._id).select('-password').lean();
+
+    if (!user) {
+      return createErrorResponse(response, 404, 'User not found');
+    }
+
+    return createSuccessResponse(response, 200, 'Current user retrieved successfully', user);
+  } catch (error) {
+    return createErrorResponse(response, 500, 'Internal server error');
+  }
+};
+
+const updateProfile = async (request, response) => {
+  try {
+    const { phone, linkedin, github, name } = request.body;
+    const profile = {
+      ...(phone !== undefined && { phone }),
+      ...(linkedin !== undefined && { linkedin }),
+      ...(github !== undefined && { github })
+    };
+
+    const updatePayload = {
+      ...(name !== undefined && { name }),
+      ...(Object.keys(profile).length > 0 && { profile })
+    };
+
+    if (Object.keys(updatePayload).length === 0) {
+      return createErrorResponse(response, 400, 'No valid fields provided for update');
+    }
+
+    const updatedUser = await User.findByIdAndUpdate(
+      request.user._id,
+      updatePayload,
+      {
+        new: true,
+        runValidators: true
+      }
+    ).select('-password').lean();
+
+    return createSuccessResponse(response, 200, 'Profile updated successfully', updatedUser);
+  } catch (error) {
+    return createErrorResponse(response, 500, 'Internal server error');
+  }
+};
+
 module.exports = {
-  createUser,
   getAllUsers,
   getUserById,
   updateUser,
-  deleteUser
+  deleteUser,
+  getCurrentUser,
+  updateProfile
 };
