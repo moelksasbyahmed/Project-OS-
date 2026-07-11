@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const bcrypt = require('bcryptjs');
 const applyUserMethods = require('./user_methods');
 
 const userSchema = new mongoose.Schema({
@@ -26,13 +25,9 @@ const userSchema = new mongoose.Schema({
     type: Date,
     default : null 
   },
-   profileImage: {
-    type: String ,
-    default : "default-avater.webp"
-  },
   role: {
     type: String,
-    enum: ['project_manager', 'engineer'],
+    enum: ['admin', 'project_manager', 'engineer'],
     default: 'engineer'
   },
   completedProjects : [{
@@ -64,7 +59,7 @@ managed_projects: [{
 }],
 managed_engineers : [{
   type: mongoose.Schema.Types.ObjectId, 
-  ref: 'engineer',
+  ref: 'Engineer',
 }],
 
  })
@@ -103,13 +98,15 @@ managed_engineers : [{
   }
   })
 
-userSchema.pre('save', function updateTimestamp(next) {
- if (!this.isModified('password')) {
-  return next();
- }
 
- this.password = bcrypt.hashSync(this.password, 10);
-  next();
-});
 
-module.exports = mongoose.model('User', userSchema);
+const User = mongoose.model('User', userSchema);
+const ProjectManager = mongoose.model('ProjectManager', ProjectManagerSchema);
+const Engineer = mongoose.model('Engineer', EngineerSchema);
+
+
+module.exports = {
+  User,
+  ProjectManager,
+  Engineer
+};

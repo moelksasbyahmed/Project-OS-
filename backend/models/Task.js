@@ -1,12 +1,14 @@
 const mongoose = require('mongoose'); 
 const applyTaskMethods = require('./task_methods');
+const project = require ("./project")
 
 const TaskSchema = new mongoose.Schema({
     title: {
         type: String, 
         required: [true, 'Task title is required'],
         trim: true,
-        maxlength: [100, 'Task title cannot exceed 100 characters']
+        maxlength: [100, 'Task title cannot exceed 100 characters'],
+        unique : true ,
     },
     description: { 
         type: String,
@@ -21,6 +23,10 @@ const TaskSchema = new mongoose.Schema({
         type: String, 
         enum: ['not_started', 'in_progress', 'completed'],
         default: 'not_started'
+    },
+    project :{
+        type: mongoose.Schema.Types.ObjectId,
+        ref : 'Project'
     }
 });
 

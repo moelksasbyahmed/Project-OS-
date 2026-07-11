@@ -1,41 +1,28 @@
 const projectMethods = (schema) => {
-  schema.virtual('memberCount').get(function memberCount() {
-    return Array.isArray(this.teamMembers) ? this.teamMembers.length : 0;
-  });
+	schema.virtual('teamMemberCount').get(function teamMemberCount() {
+		return Array.isArray(this.teamMembers) ? this.teamMembers.length : 0;
+	});
 
-  schema.virtual('taskCount').get(function taskCount() {
-    return Array.isArray(this.tasks) ? this.tasks.length : 0;
-  });
+	schema.virtual('taskCount').get(function taskCount() {
+		return Array.isArray(this.tasks) ? this.tasks.length : 0;
+	});
 
-  schema.virtual('daysRemaining').get(function daysRemaining() {
-    if (!this.endDate) {
-      return null;
-    }
+	schema.methods.hasTeamMember = function hasTeamMember(engineerId) {
+		return Array.isArray(this.teamMembers)
+			&& this.teamMembers.some((memberId) => memberId.toString() === engineerId.toString());
+	};
 
-    const remaining = Math.ceil((new Date(this.endDate) - new Date()) / (1000 * 60 * 60 * 24));
-    return remaining;
-  });
+	schema.methods.isManagedBy = function isManagedBy(projectManagerId) {
+		return this.projectManager && this.projectManager.toString() === projectManagerId.toString();
+	};
 
-  schema.virtual('isCompleted').get(function isCompleted() {
-    return this.status === 'completed';
-  });
+	schema.statics.findByManager = function findByManager(projectManagerId) {
+		return this.find({ projectManager: projectManagerId });
+	};
 
-  schema.methods.hasMember = function hasMember(memberId) {
-    return Array.isArray(this.teamMembers)
-      && this.teamMembers.some((teamMemberId) => teamMemberId.toString() === memberId.toString());
-  };
-
-  schema.methods.isOverdue = function isOverdue() {
-    return Boolean(this.endDate) && new Date(this.endDate) < new Date() && this.status !== 'completed';
-  };
-
-  schema.statics.findByStatus = function findByStatus(status) {
-    return this.find({ status });
-  };
-
-  schema.statics.findByManager = function findByManager(projectManagerId) {
-    return this.find({ projectManager: projectManagerId });
-  };
+	schema.statics.findByStatus = function findByStatus(status) {
+		return this.find({ status });
+	};
 };
 
 module.exports = projectMethods;

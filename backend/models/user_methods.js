@@ -18,6 +18,16 @@ const userMethods = (schema) => {
 		return this.role === role;
 	};
 
+	schema.methods.setCurrentProject = function setCurrentProject(projectId) {
+		this.currentProject = projectId;
+		return this;
+	};
+
+	schema.methods.setCurrentTask = function setCurrentTask(taskId) {
+		this.currentTask = taskId;
+		return this;
+	};
+
 	schema.statics.findByEmail = function findByEmail(email) {
 		return this.findOne({ email: email.toLowerCase().trim() });
 	};

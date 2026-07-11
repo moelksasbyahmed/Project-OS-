@@ -1,4 +1,4 @@
-const mongoose = require('mongoose'); 
+module.exports = require('./project');const mongoose = require('mongoose'); 
 const applyProjectMethods = require('./project_methods');
 
 const projectSchema = new mongoose.Schema({ 
