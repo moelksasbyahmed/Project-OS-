@@ -1,0 +1,112 @@
+<div class="min-h-screen bg-background text-on-surface">
+  <!-- SideNavBar Shell -->
+  <aside class="fixed left-0 top-0 h-full w-64 bg-surface-container-lowest shadow-sm flex flex-col py-6 px-4 z-50">
+    <div class="mb-10 px-2 flex items-center gap-3">
+      <div class="w-10 h-10 bg-primary rounded-xl flex items-center justify-center text-white">
+        <span class="material-symbols-outlined text-[24px]">hub</span>
+      </div>
+      <div>
+        <h1 class="font-headline-md text-lg font-bold text-primary">ProjectOS</h1>
+        <p class="text-xs text-outline uppercase tracking-wider">Enterprise Hub</p>
+      </div>
+    </div>
+
+    <nav class="flex-1 space-y-1">
+      <!-- Dashboard -->
+      <a routerLink="/dashboard" routerLinkActive="text-primary font-bold border-r-4 border-primary bg-surface-container-low" [routerLinkActiveOptions]="{exact: true}"
+         class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-primary transition-all text-sm">
+        <span class="material-symbols-outlined">dashboard</span>
+        <span>Dashboard</span>
+      </a>
+
+      <!-- Projects -->
+      <a routerLink="/projects" routerLinkActive="text-primary font-bold border-r-4 border-primary bg-surface-container-low"
+         class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-primary transition-all text-sm">
+        <span class="material-symbols-outlined">folder_open</span>
+        <span>Projects</span>
+      </a>
+
+      <!-- Tasks -->
+      <a routerLink="/tasks" routerLinkActive="text-primary font-bold border-r-4 border-primary bg-surface-container-low"
+         class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-primary transition-all text-sm">
+        <span class="material-symbols-outlined">assignment</span>
+        <span>Tasks</span>
+      </a>
+
+      <!-- Team Settings -->
+      <a routerLink="/team" routerLinkActive="text-primary font-bold border-r-4 border-primary bg-surface-container-low"
+         class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-primary transition-all text-sm">
+        <span class="material-symbols-outlined">groups</span>
+        <span>Team Settings</span>
+      </a>
+
+      <!-- Roles & Permissions -->
+      <a routerLink="/permissions" routerLinkActive="text-primary font-bold border-r-4 border-primary bg-surface-container-low"
+         class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-primary transition-all text-sm">
+        <span class="material-symbols-outlined">admin_panel_settings</span>
+        <span>Roles &amp; Permissions</span>
+      </a>
+
+      <!-- User Profile -->
+      <a routerLink="/profile" routerLinkActive="text-primary font-bold border-r-4 border-primary bg-surface-container-low"
+         class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-primary transition-all text-sm">
+        <span class="material-symbols-outlined">person</span>
+        <span>User Profile</span>
+      </a>
+    </nav>
+
+    <div class="mt-auto border-t border-outline-variant/30 pt-4">
+      <button (click)="logout()" class="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-on-surface-variant hover:text-error hover:bg-error-container/10 transition-colors text-sm text-left">
+        <span class="material-symbols-outlined">logout</span>
+        <span>Sign Out</span>
+      </button>
+    </div>
+  </aside>
+
+  <!-- Main Layout Content -->
+  <div class="ml-64 min-h-screen flex flex-col">
+    <!-- TopNavBar Shell -->
+    <header class="sticky top-0 z-40 flex justify-between items-center h-16 w-full px-8 bg-surface/80 backdrop-blur-md border-b border-outline-variant/20">
+      <div class="flex items-center flex-1 max-w-xl">
+        <div class="relative w-full group">
+          <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline group-focus-within:text-primary transition-colors">search</span>
+          <input type="text" placeholder="Search projects or tasks..."
+                 class="w-full bg-surface-container-low border-none rounded-full pl-10 pr-4 py-2 text-sm focus:ring-2 focus:ring-primary/20 placeholder:text-outline transition-all outline-none" />
+        </div>
+      </div>
+
+      <div class="flex items-center gap-6">
+        <span class="text-xs bg-secondary-container/10 text-secondary px-3 py-1 rounded-full font-bold">Role: {{ state.currentUserRole() }}</span>
+        <div class="flex gap-2">
+          <button class="p-2 text-on-surface-variant hover:bg-surface-container-high rounded-full transition-all relative">
+            <span class="material-symbols-outlined">notifications</span>
+            <span class="absolute top-1.5 right-1.5 w-2 h-2 bg-error rounded-full border border-surface"></span>
+          </button>
+          <button class="p-2 text-on-surface-variant hover:bg-surface-container-high rounded-full transition-all">
+            <span class="material-symbols-outlined">help_outline</span>
+          </button>
+        </div>
+        
+        <div routerLink="/profile" class="flex items-center gap-3 cursor-pointer hover:bg-surface-container-low p-1 pr-3 rounded-full transition-all">
+          <div class="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center text-xs font-bold text-primary border-2 border-primary">
+            {{ state.profile()?.name?.substring(0, 2)?.toUpperCase() || 'US' }}
+          </div>
+          <div class="text-left hidden lg:block leading-none">
+            <p class="text-xs font-bold text-on-surface leading-tight">{{ state.profile()?.name || 'User' }}</p>
+            <span class="text-[9px] text-outline uppercase tracking-wider font-semibold">Verified</span>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Dynamic Page Router Outlet -->
+    <main class="flex-1 p-8">
+      <router-outlet></router-outlet>
+    </main>
+
+    <!-- Sticky Footer Branding -->
+    <footer class="mt-auto py-4 px-8 text-center border-t border-outline-variant/10 text-xs text-outline bg-surface-container-lowest/30">
+      <p>© 2026 ProjectOS Dashboard. Systems nominal.</p>
+    </footer>
+  </div>
+</div>

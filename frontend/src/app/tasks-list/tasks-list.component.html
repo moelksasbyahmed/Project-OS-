@@ -1,0 +1,173 @@
+<div class="space-y-8 font-sans">
+  <!-- Title Header -->
+  <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+    <div>
+      <h2 class="text-3xl font-extrabold text-on-surface tracking-tight">Sprint Deliverables</h2>
+      <p class="text-xs text-outline mt-1">Audit active task backlogs, manage schedules, and assign specialized tasks.</p>
+    </div>
+    <button routerLink="/tasks/create" class="bg-primary hover:bg-primary/90 text-white font-bold py-2.5 px-5 rounded-xl text-xs flex items-center gap-1.5 shadow-md hover:shadow-primary/25 cursor-pointer transition-all">
+      <span class="material-symbols-outlined text-sm">add</span>
+      <span>Deploy Operational Task</span>
+    </button>
+  </div>
+
+  <!-- Filters Panel -->
+  <div class="bg-surface-container-lowest p-5 rounded-2xl border border-outline-variant/20 shadow-sm flex flex-col md:flex-row gap-4 items-center justify-between">
+    <div class="flex flex-wrap items-center gap-3 w-full md:w-auto">
+      <!-- Search input -->
+      <div class="relative flex-1 md:flex-initial min-w-[240px]">
+        <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline text-sm">search</span>
+        <input type="text" [(ngModel)]="searchQuery" placeholder="Search task backlog..."
+               class="w-full bg-surface-container-low border border-outline-variant/30 rounded-xl pl-9 pr-4 py-2 text-xs outline-none focus:border-primary transition-all text-on-surface" />
+      </div>
+
+      <!-- Project Filter -->
+      <div class="relative">
+        <select [(ngModel)]="projectFilter"
+                class="appearance-none bg-surface-container-low border border-outline-variant/30 rounded-xl pl-4 pr-8 py-2 text-xs outline-none focus:border-primary transition-all text-on-surface cursor-pointer">
+          <option value="All">All Portfolios</option>
+          @for (p of state.projects(); track p._id) {
+            <option [value]="p._id">{{ p.name }}</option>
+          }
+        </select>
+      </div>
+
+      <!-- Status Filter -->
+      <div class="relative">
+        <select [(ngModel)]="statusFilter"
+                class="appearance-none bg-surface-container-low border border-outline-variant/30 rounded-xl pl-4 pr-8 py-2 text-xs outline-none focus:border-primary transition-all text-on-surface cursor-pointer">
+          <option value="All">All Statuses</option>
+          <option value="not_started">Not Started</option>
+          <option value="in_progress">In Progress</option>
+          <option value="completed">Completed</option>
+        </select>
+      </div>
+
+      <!-- Priority Filter -->
+      <div class="relative">
+        <select [(ngModel)]="priorityFilter"
+                class="appearance-none bg-surface-container-low border border-outline-variant/30 rounded-xl pl-4 pr-8 py-2 text-xs outline-none focus:border-primary transition-all text-on-surface cursor-pointer">
+          <option value="All">All Priorities</option>
+          <option value="high">High</option>
+          <option value="medium">Medium</option>
+          <option value="low">Low</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <!-- Backlog Table Area -->
+  @if (filteredTasks().length === 0) {
+    <div class="bg-surface-container-lowest border border-dashed border-outline-variant/30 p-16 rounded-3xl text-center space-y-4">
+      <span class="material-symbols-outlined text-4xl text-outline bg-surface-container-low p-5 rounded-full">search_off</span>
+      <div>
+        <h4 class="text-sm font-bold text-on-surface">No Tasks Found</h4>
+        <p class="text-xs text-outline mt-1">Adjust filters or deploy a brand new operational task deliverable.</p>
+      </div>
+      <button (click)="resetFilters()" class="bg-primary/10 hover:bg-primary/20 text-primary font-semibold py-2 px-4 rounded-xl text-xs cursor-pointer transition-all">
+        Reset Filters
+      </button>
+    </div>
+  } @else {
+    <div class="bg-surface-container-lowest rounded-2xl border border-outline-variant/15 shadow-sm overflow-hidden flex flex-col text-left animate-fade-in">
+      <div class="overflow-x-auto">
+        <table class="w-full text-left border-collapse">
+          <thead>
+            <tr class="bg-surface-container-low/40 text-[9px] text-outline font-bold uppercase tracking-wider border-b border-outline-variant/10">
+              <th class="py-3.5 px-6">Task Key</th>
+              <th class="py-3.5 px-6">Deliverable Title</th>
+              <th class="py-3.5 px-6">Portfolio Name</th>
+              <th class="py-3.5 px-6">Assignee Specialist</th>
+              <th class="py-3.5 px-6">Priority</th>
+              <th class="py-3.5 px-6">Status</th>
+              <th class="py-3.5 px-6">Execution Progress</th>
+              <th class="py-3.5 px-6 text-right">Actions</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-outline-variant/10 text-xs">
+            @for (t of filteredTasks(); track t._id) {
+              <tr class="hover:bg-surface-container-low/30 transition-all">
+                <!-- Key -->
+                <td class="py-4 px-6">
+                  <span class="font-mono text-[10px] bg-surface-container-high px-2 py-0.5 rounded font-bold text-outline">{{ t._id }}</span>
+                </td>
+
+                <!-- Title -->
+                <td class="py-4 px-6 font-bold text-on-surface">
+                  <div class="flex flex-col">
+                    <a [routerLink]="['/tasks', t._id]" class="hover:text-primary transition-colors cursor-pointer text-sm">{{ t.title }}</a>
+                    <span class="text-[10px] text-outline font-normal mt-1 max-w-sm truncate">{{ t.description }}</span>
+                  </div>
+                </td>
+
+                <!-- Project -->
+                <td class="py-4 px-6 font-medium text-on-surface-variant">{{ t.projectName }}</td>
+
+                <!-- Assignee -->
+                <td class="py-4 px-6">
+                  <div class="flex items-center gap-2">
+                    <div class="w-6 h-6 rounded-full bg-primary/10 text-primary flex items-center justify-center font-bold text-[10px] overflow-hidden border border-outline-variant">
+                      {{ (t.assignee || 'U').charAt(0) }}
+                    </div>
+                    <span class="font-medium text-on-surface-variant">{{ t.assignee || 'Unassigned' }}</span>
+                  </div>
+                </td>
+
+                <!-- Priority -->
+                <td class="py-4 px-6">
+                      <span class="px-2.5 py-1 rounded-full text-[9px] font-bold uppercase tracking-wider"
+                            [class.bg-red-100]="t.priority === 'high'"
+                            [class.text-red-800]="t.priority === 'high'"
+                            [class.bg-blue-100]="t.priority === 'medium'"
+                            [class.text-blue-800]="t.priority === 'medium'"
+                            [class.bg-slate-100]="t.priority === 'low'"
+                            [class.text-slate-800]="t.priority === 'low'">
+                    {{ t.priority }}
+                  </span>
+                </td>
+
+                <!-- Status -->
+                <td class="py-4 px-6">
+                      <span class="px-2.5 py-1 rounded-full text-[9px] font-bold uppercase tracking-wider"
+                            [class.bg-amber-100]="t.status === 'in_progress'"
+                            [class.text-amber-800]="t.status === 'in_progress'"
+                            [class.bg-green-100]="t.status === 'completed'"
+                            [class.text-green-800]="t.status === 'completed'"
+                            [class.bg-slate-100]="t.status === 'not_started'"
+                            [class.text-slate-800]="t.status === 'not_started'">
+                    {{ t.status }}
+                  </span>
+                </td>
+
+                <!-- Progress -->
+                <td class="py-4 px-6">
+                  <div class="flex items-center gap-3">
+                    <div class="flex-1 bg-outline-variant/25 h-1.5 rounded-full overflow-hidden min-w-[70px]">
+                      <div class="bg-primary h-full rounded-full transition-all" [style.width.%]="t.progress || 0" [class.bg-green-500]="t.status === 'completed'"></div>
+                    </div>
+                    <span class="font-bold text-on-surface text-[10px]">{{ t.progress || 0 }}%</span>
+                  </div>
+                </td>
+
+                <!-- Actions -->
+                <td class="py-4 px-6 text-right">
+                  <div class="flex justify-end gap-2">
+                    <a [routerLink]="['/tasks', t._id]" class="p-1.5 hover:bg-surface-container-high rounded text-outline hover:text-primary transition-colors">
+                      <span class="material-symbols-outlined text-sm">visibility</span>
+                    </a>
+                    <a [routerLink]="['/tasks', t._id, 'edit']" class="p-1.5 hover:bg-surface-container-high rounded text-outline hover:text-primary transition-colors">
+                      <span class="material-symbols-outlined text-sm">edit</span>
+                    </a>
+                    <button (click)="deleteTask(t._id)" class="p-1.5 hover:bg-error-container/20 rounded text-outline hover:text-error transition-colors cursor-pointer">
+                      <span class="material-symbols-outlined text-sm">delete</span>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+  }
+</div>

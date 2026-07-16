@@ -1,0 +1,283 @@
+<div class="space-y-8 font-sans">
+  <!-- Title Header -->
+  <div class="flex justify-between items-center">
+    <div>
+      <h2 class="text-3xl font-extrabold text-on-surface tracking-tight">Engineering Squads</h2>
+      <p class="text-xs text-outline mt-1">Manage squad availability parameters, active tasks, and bulk assign cluster projects.</p>
+    </div>
+    <button (click)="openSearchModal()" 
+            class="bg-primary hover:bg-primary/95 text-white font-bold py-2.5 px-4 rounded-xl text-xs flex items-center gap-1.5 cursor-pointer transition-all shadow-sm">
+      <span class="material-symbols-outlined text-sm">person_add</span>
+      <span>Add Specialist</span>
+    </button>
+  </div>
+
+  <!-- Bulk Assignment Panel -->
+  @if (selectedEngineerIds().length > 0) {
+    <div class="p-4 bg-primary/5 border border-primary/20 rounded-2xl flex flex-col sm:flex-row sm:items-center justify-between gap-4 animate-fade-in text-left">
+      <div class="flex items-center gap-3">
+        <span class="material-symbols-outlined text-primary bg-primary/10 p-2 rounded-xl text-lg">check_box</span>
+        <div>
+          <p class="text-xs font-bold text-primary">Batch Operations Enabled</p>
+          <p class="text-[10px] text-outline mt-0.5">
+            {{ selectedEngineerIds().length }} squad members selected. Apply bulk assignments instantly.
+          </p>
+        </div>
+      </div>
+
+      <div class="flex flex-wrap items-center gap-2">
+        <select [(ngModel)]="bulkProjectSelected"
+                class="bg-surface-container-low border border-outline-variant/30 rounded-xl px-3 py-2 text-xs text-on-surface outline-none focus:border-primary">
+          <option value="" disabled selected>Select Portfolio...</option>
+          @for (p of state.projects(); track p._id) {
+            <option [value]="p._id">{{ p.name }}</option>
+          }
+        </select>
+        <button (click)="applyBulkAssignment()" [disabled]="!bulkProjectSelected"
+                class="bg-primary hover:bg-primary/90 disabled:opacity-40 text-white font-bold py-2 px-4 rounded-xl text-xs flex items-center gap-1 cursor-pointer transition-all">
+          <span class="material-symbols-outlined text-sm">assignment_turned_in</span>
+          <span>Bulk Assign</span>
+        </button>
+        <button (click)="clearSelection()" class="bg-surface-container-high hover:bg-surface-container-highest text-on-surface font-semibold py-2 px-3 rounded-xl text-xs transition-all cursor-pointer">
+          Cancel
+        </button>
+      </div>
+    </div>
+  }
+
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+    <!-- Squad Directory Table (Col-span 2) -->
+    <div class="lg:col-span-2 bg-surface-container-lowest rounded-2xl border border-outline-variant/15 shadow-sm overflow-hidden flex flex-col">
+      <div class="p-6 border-b border-outline-variant/10 flex justify-between items-center">
+        <div>
+          <h3 class="text-base font-bold text-on-surface">Active Squad Allocation</h3>
+          <p class="text-[11px] text-outline mt-0.5">Specialist availability, project tracks, and active duties</p>
+        </div>
+        <button (click)="selectAllEngineers()" class="text-xs text-primary hover:underline font-bold">
+          Select All
+        </button>
+      </div>
+
+      <div class="overflow-x-auto flex-1">
+        <table class="w-full text-left border-collapse">
+          <thead>
+            <tr class="bg-surface-container-low/40 text-[9px] text-outline font-bold uppercase tracking-wider border-b border-outline-variant/10">
+              <th class="py-3 px-6 w-12">Select</th>
+              <th class="py-3 px-6">Specialist</th>
+              <th class="py-3 px-6">Associated Track</th>
+              <th class="py-3 px-6">Bandwidth</th>
+              <th class="py-3 px-6 text-center">Duty Status</th>
+              <th class="py-3 px-6 text-right">Actions</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-outline-variant/10">
+            @for (e of filteredEngineers(); track e.id) {
+              <tr class="hover:bg-surface-container-low/30 transition-all text-xs" [class.bg-surface-container-low/10]="isEngineerSelected(e.id)">
+                <!-- Checkbox -->
+                <td class="py-4 px-6">
+                  <input type="checkbox" [checked]="isEngineerSelected(e.id)" (change)="toggleEngineerSelection(e.id)"
+                         class="rounded border-outline-variant text-primary focus:ring-primary w-4 h-4 cursor-pointer" />
+                </td>
+
+                <!-- Name / Avatar -->
+                <td class="py-4 px-6">
+                  <div class="flex items-center gap-3">
+                    <div class="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center text-xs font-bold text-primary">
+                      {{ e.name.substring(0, 2).toUpperCase() }}
+                    </div>
+                    <div class="text-left">
+                      <h4 class="text-xs font-bold text-on-surface leading-none">{{ e.name }}</h4>
+                      <span class="text-[9px] text-outline mt-1 block leading-none">{{ e.email }}</span>
+                    </div>
+                  </div>
+                </td>
+
+                <!-- Associated track -->
+                <td class="py-4 px-6">
+                  <div class="text-left">
+                    <p class="font-bold text-on-surface leading-snug">{{ getAssignedProjectName(e.id) }}</p>
+                    <p class="text-[9px] text-outline truncate max-w-[140px] mt-0.5">Duty: {{ e.currentTask }}</p>
+                  </div>
+                </td>
+
+                <!-- Availability indicator -->
+                <td class="py-4 px-6">
+                  <div class="flex items-center gap-2">
+                    <div class="w-16 bg-outline-variant/20 h-1 rounded-full overflow-hidden">
+                      <div class="h-full rounded-full transition-all"
+                           [style.width.%]="e.availability"
+                           [class.bg-green-500]="e.availability > 60"
+                           [class.bg-amber-500]="e.availability >= 30 && e.availability <= 60"
+                           [class.bg-red-500]="e.availability < 30">
+                      </div>
+                    </div>
+                    <span class="text-[10px] font-bold text-outline">{{ e.availability }}%</span>
+                  </div>
+                </td>
+
+                <!-- Toggle Status (Interactive) -->
+                <td class="py-4 px-6 text-center">
+                  <div class="flex items-center justify-center gap-2">
+                    <!-- Custom Switch Toggle -->
+                    <button (click)="toggleEngineerActive(e.id)"
+                            [class.bg-primary]="e.active"
+                            [class.bg-outline-variant]="!e.active"
+                            class="w-9 h-5 rounded-full p-0.5 transition-colors duration-200 outline-none cursor-pointer relative flex items-center">
+                      <span [class.translate-x-4]="e.active"
+                            [class.translate-x-0]="!e.active"
+                            class="w-4 h-4 bg-white rounded-full shadow-sm transition-transform duration-200 block"></span>
+                    </button>
+                    <span class="text-[9px] uppercase font-bold tracking-wider" [class.text-green-600]="e.active" [class.text-red-600]="!e.active">
+                      {{ e.active ? 'ACTIVE' : 'NON-ACTIVE' }}
+                    </span>
+                  </div>
+                </td>
+
+                <!-- Actions (Remove from Project) -->
+                <td class="py-4 px-6 text-right">
+                  <button (click)="removeEngineerFromProject(e.id)"
+                          [disabled]="getAssignedProjectName(e.id) === 'Unassigned'"
+                          class="text-outline hover:text-error disabled:opacity-30 disabled:hover:text-outline p-1 rounded hover:bg-error-container/20 transition-all cursor-pointer"
+                          title="Remove from Project">
+                    <span class="material-symbols-outlined text-xs">person_remove</span>
+                  </button>
+                </td>
+              </tr>
+            }
+            @if (filteredEngineers().length === 0) {
+              <tr>
+                <td colspan="6" class="py-12 text-center text-outline">
+                  <span class="material-symbols-outlined text-4xl block mb-2 text-outline/45">groups</span>
+                  <p class="text-xs font-bold text-on-surface">No Team Specialists Allocated</p>
+                  <p class="text-[10px] mt-1 text-outline">Use the "Add Specialist" button to search and assign team members.</p>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Hiring Pipeline Bento Panel -->
+    <div class="space-y-6">
+      <div class="bg-surface-container-lowest p-6 rounded-2xl border border-outline-variant/15 shadow-sm space-y-6">
+        <div class="flex justify-between items-center border-b border-outline-variant/10 pb-4">
+          <h3 class="text-base font-bold text-on-surface">Squad Pipeline</h3>
+          <span class="text-[10px] uppercase font-bold tracking-wider text-outline">Expansion</span>
+        </div>
+
+        <div class="space-y-4 text-left">
+          @for (job of pipeline(); track job.title) {
+            <div class="p-3 bg-surface-container-low rounded-xl border border-outline-variant/10 space-y-2">
+              <div class="flex justify-between items-center">
+                <h4 class="text-xs font-bold text-on-surface">{{ job.title }}</h4>
+                <span class="text-[8px] bg-primary/10 text-primary px-2 py-0.5 rounded-full font-bold uppercase tracking-wider">
+                  {{ job.department }}
+                </span>
+              </div>
+              
+              <div class="flex items-center justify-between text-[10px]">
+                <span class="text-outline">Hiring Step:</span>
+                <span class="font-semibold text-primary flex items-center gap-1">
+                  <span class="w-1.5 h-1.5 bg-primary rounded-full animate-pulse"></span>
+                  <span>{{ job.stage }}</span>
+                </span>
+              </div>
+            </div>
+          }
+        </div>
+
+        <!-- Recruitment Action -->
+        <button (click)="openRecruitingAlert()" class="w-full bg-primary/10 hover:bg-primary/20 text-primary font-bold py-2.5 rounded-xl text-xs cursor-pointer transition-all flex items-center justify-center gap-1.5">
+          <span class="material-symbols-outlined text-sm">campaign</span>
+          <span>Initiate Recruitment SLA</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Search Specialist Pop-up Modal -->
+  @if (showSearchModal()) {
+    <div class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+      <div class="bg-surface-container-lowest border border-outline-variant/20 rounded-2xl max-w-md w-full shadow-2xl overflow-hidden animate-scale-up text-left">
+        <!-- Modal Header -->
+        <div class="p-6 border-b border-outline-variant/10 flex justify-between items-center bg-surface-container-low">
+          <div>
+            <h3 class="text-base font-bold text-on-surface">Add Specialist to Project</h3>
+            <p class="text-[10px] text-outline mt-0.5">Search for users by email and allocate them to project tracks.</p>
+          </div>
+          <button (click)="closeSearchModal()" class="text-outline hover:text-on-surface p-1 rounded-full hover:bg-outline-variant/10 transition-all cursor-pointer">
+            <span class="material-symbols-outlined text-sm">close</span>
+          </button>
+        </div>
+
+        <!-- Modal Content -->
+        <div class="p-6 space-y-4">
+          <!-- Search Row -->
+          <div class="space-y-1">
+            <label class="text-[10px] font-bold text-outline uppercase tracking-wider block">Search by Email</label>
+            <div class="flex gap-2">
+              <input type="email" [(ngModel)]="searchEmail" (keyup.enter)="searchEngineer()"
+                     placeholder="specialist@gmail.com"
+                     class="flex-1 bg-surface-container-low border border-outline-variant/30 rounded-xl px-3 py-2 text-xs text-on-surface outline-none focus:border-primary" />
+              <button (click)="searchEngineer()"
+                      class="bg-primary hover:bg-primary/90 text-white font-bold px-4 py-2 rounded-xl text-xs flex items-center gap-1 cursor-pointer transition-all">
+                <span class="material-symbols-outlined text-sm">search</span>
+                <span>Search</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Error Alert -->
+          @if (searchError()) {
+            <div class="p-3 bg-error-container/20 border border-error-container/40 rounded-xl text-[11px] text-error flex items-center gap-2">
+              <span class="material-symbols-outlined text-sm">error</span>
+              <span>{{ searchError() }}</span>
+            </div>
+          }
+
+          <!-- Found Engineer Info & Project Allocation Form -->
+          @if (foundEngineer(); as eng) {
+            <div class="p-4 bg-primary/5 border border-primary/20 rounded-xl space-y-4 animate-fade-in">
+              <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-xs font-bold text-primary">
+                  {{ eng.name.substring(0, 2).toUpperCase() }}
+                </div>
+                <div>
+                  <h4 class="text-xs font-bold text-on-surface leading-none">{{ eng.name }}</h4>
+                  <span class="text-[10px] text-outline mt-1 block leading-none">{{ eng.email }}</span>
+                </div>
+              </div>
+
+              <!-- Project Select Dropdown -->
+              <div class="space-y-1 pt-2 border-t border-outline-variant/10">
+                <label class="text-[10px] font-bold text-outline uppercase tracking-wider block">Select Project Target</label>
+                <select [(ngModel)]="selectedProjectForAdd"
+                        class="w-full bg-surface-container-low border border-outline-variant/30 rounded-xl px-3 py-2 text-xs text-on-surface outline-none focus:border-primary">
+                  <option value="" disabled selected>Select Track...</option>
+                  @for (p of state.projects(); track p._id) {
+                    <option [value]="p._id">{{ p.name }}</option>
+                  }
+                </select>
+              </div>
+            </div>
+          }
+        </div>
+
+        <!-- Modal Footer -->
+        <div class="p-6 border-t border-outline-variant/10 flex justify-end gap-2 bg-surface-container-low">
+          <button (click)="closeSearchModal()"
+                  class="bg-surface-container-high hover:bg-surface-container-highest text-on-surface font-semibold py-2 px-4 rounded-xl text-xs transition-all cursor-pointer">
+            Cancel
+          </button>
+          <button (click)="addFoundEngineerToProject()"
+                  [disabled]="!foundEngineer() || !selectedProjectForAdd()"
+                  class="bg-primary hover:bg-primary/90 disabled:opacity-40 text-white font-bold py-2 px-4 rounded-xl text-xs flex items-center gap-1 cursor-pointer transition-all">
+            <span class="material-symbols-outlined text-sm">person_add</span>
+            <span>Assign Specialist</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  }
+</div>

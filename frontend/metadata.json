@@ -1,0 +1,6 @@
+{
+  "name": "ProjectOS",
+  "description": "Enterprise Project & Resource Orchestration Workspace",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

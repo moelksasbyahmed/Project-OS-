@@ -1,0 +1,185 @@
+<div class="max-w-5xl mx-auto space-y-8 font-sans">
+  <!-- Breadcrumbs -->
+  <div class="flex items-center gap-2 text-xs text-outline font-semibold">
+    <a routerLink="/dashboard" class="hover:text-primary transition-colors">Dashboard</a>
+    <span class="material-symbols-outlined text-[12px]">chevron_right</span>
+    <a routerLink="/tasks" class="hover:text-primary transition-colors">Tasks</a>
+    <span class="material-symbols-outlined text-[12px]">chevron_right</span>
+    <span class="text-on-surface">{{ task()?._id || 'Task Details' }}</span>
+  </div>
+
+  <!-- Non-existent task fallback -->
+  @if (!task()) {
+    <div class="bg-surface-container-lowest border border-dashed border-outline-variant/30 p-16 rounded-3xl text-center space-y-4">
+      <span class="material-symbols-outlined text-4xl text-outline bg-surface-container-low p-5 rounded-full">search_off</span>
+      <div>
+        <h4 class="text-sm font-bold text-on-surface">Task Not Found</h4>
+        <p class="text-xs text-outline mt-1">This task is not registered in our active backlogs.</p>
+      </div>
+      <button routerLink="/tasks" class="bg-primary text-white font-semibold py-2 px-4 rounded-xl text-xs cursor-pointer transition-all">
+        Back to Tasks
+      </button>
+    </div>
+  } @else {
+    <!-- Title & Badges Header -->
+    <div class="flex flex-col md:flex-row justify-between items-start gap-4">
+      <div class="text-left space-y-2.5">
+        <div class="flex items-center gap-2 flex-wrap">
+          <span class="px-2.5 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-wider bg-primary/10 text-primary">
+            {{ task()?.sprint || 'Sprint 14' }}
+          </span>
+           <span class="px-2.5 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-wider"
+                [class.bg-amber-100]="task()?.status === 'in_progress'"
+                [class.text-amber-800]="task()?.status === 'in_progress'"
+                [class.bg-green-100]="task()?.status === 'completed'"
+                [class.text-green-800]="task()?.status === 'completed'"
+                [class.bg-slate-100]="task()?.status === 'not_started'"
+                [class.text-slate-800]="task()?.status === 'not_started'">
+            {{ task()?.status }}
+          </span>
+          <span class="px-2.5 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-wider"
+                [class.bg-red-100]="task()?.priority === 'high'"
+                [class.text-red-800]="task()?.priority === 'high'"
+                [class.bg-blue-100]="task()?.priority === 'medium'"
+                [class.text-blue-800]="task()?.priority === 'medium'"
+                [class.bg-slate-100]="task()?.priority === 'low'"
+                [class.text-slate-800]="task()?.priority === 'low'">
+            {{ task()?.priority }} Priority
+          </span>
+        </div>
+        <h1 class="text-2xl md:text-3xl font-extrabold text-on-surface tracking-tight">{{ task()?.title }}</h1>
+        <p class="text-xs text-outline">Project Context: <a [routerLink]="['/projects', task()?.projectId]" class="text-primary font-bold hover:underline">{{ task()?.projectName }}</a></p>
+      </div>
+
+      <!-- Edit action link -->
+      <button [routerLink]="['/tasks', task()?._id, 'edit']" class="bg-surface-container-high hover:bg-surface-container-highest text-on-surface text-xs font-semibold px-4.5 py-2.5 rounded-xl border border-outline-variant/30 flex items-center gap-1.5 transition-all cursor-pointer">
+        <span class="material-symbols-outlined text-sm">edit</span>
+        <span>Edit Scope</span>
+      </button>
+    </div>
+
+    <!-- Details Grid layout -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <!-- Main Content (Col-span 2) -->
+      <div class="lg:col-span-2 space-y-6 text-left">
+        <!-- Long Description -->
+        <div class="bg-surface-container-lowest p-6 rounded-2xl border border-outline-variant/15 shadow-sm space-y-4">
+          <h3 class="text-sm font-bold text-on-surface uppercase tracking-wider">Functional Scope</h3>
+          <p class="text-xs text-on-surface-variant leading-relaxed font-normal whitespace-pre-line">
+            {{ task()?.description }}
+          </p>
+        </div>
+
+        <!-- Subtask Checklist with Reactivity! -->
+        <div class="bg-surface-container-lowest p-6 rounded-2xl border border-outline-variant/15 shadow-sm space-y-4">
+          <div class="flex justify-between items-center">
+            <h3 class="text-sm font-bold text-on-surface uppercase tracking-wider">Subtask Checklist</h3>
+            <span class="text-[10px] bg-primary/10 text-primary font-bold px-2.5 py-0.5 rounded-full">
+              {{ completedSubtasksCount() }}/{{ subtasks().length }} Done
+            </span>
+          </div>
+
+          <div class="space-y-2.5">
+            @for (sub of subtasks(); track sub.id) {
+              <div class="flex items-center justify-between p-3 rounded-xl bg-surface-container-low/50 border border-outline-variant/5 hover:bg-surface-container-low transition-all">
+                <label class="flex items-center gap-3 cursor-pointer select-none">
+                  <input type="checkbox" [checked]="sub.completed" (change)="toggleSubtask(sub.id)"
+                         class="rounded border-outline-variant text-primary focus:ring-primary w-4 h-4 cursor-pointer" />
+                  <span class="text-xs text-on-surface" [class.line-through]="sub.completed" [class.text-outline]="sub.completed">
+                    {{ sub.title }}
+                  </span>
+                </label>
+                
+                <button (click)="removeSubtask(sub.id)" class="text-outline hover:text-error transition-colors p-1">
+                  <span class="material-symbols-outlined text-xs">close</span>
+                </button>
+              </div>
+            }
+
+            <!-- Add Subtask Input -->
+            <div class="flex items-center gap-2 pt-2">
+              <input type="text" [(ngModel)]="newSubtaskTitle" placeholder="Add custom subtask..."
+                     (keydown.enter)="addSubtask()"
+                     class="flex-1 bg-surface-container-low border border-outline-variant/30 rounded-xl px-3 py-2 text-xs text-on-surface outline-none focus:border-primary transition-all" />
+              <button (click)="addSubtask()" class="bg-primary text-white font-bold p-2 rounded-xl text-xs flex items-center justify-center transition-all cursor-pointer">
+                <span class="material-symbols-outlined">add</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- AI Helper Tip -->
+        <div class="bg-primary/5 border border-primary/20 p-5 rounded-2xl flex items-start gap-4">
+          <span class="material-symbols-outlined text-primary bg-primary/10 p-2 rounded-xl text-lg animate-pulse">psychology</span>
+          <div>
+            <h4 class="text-xs font-bold text-primary">ProjectOS AI Assistant Recommendation</h4>
+            <p class="text-[10px] text-outline leading-relaxed mt-1.5">
+              To achieve sub-100ms real-time latency updates for WebSockets, we highly advise utilizing an optimized binary protobuf schema instead of raw JSON payloads. Ensure your Kubernetes clusters are configured with socket sticky sessions enabled.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Actions Sidebar Panel -->
+      <div class="space-y-6">
+        <!-- Task Info Panel -->
+        <div class="bg-surface-container-lowest p-6 rounded-2xl border border-outline-variant/15 shadow-sm space-y-4 text-left">
+          <h3 class="text-xs font-bold text-on-surface uppercase tracking-wider border-b border-outline-variant/10 pb-3">Operational Meta</h3>
+          
+          <div class="space-y-4">
+            <div>
+              <span class="text-[9px] uppercase font-semibold text-outline block">Assignee Specialist</span>
+              <div class="flex items-center gap-2 mt-1.5">
+                <div class="w-7 h-7 rounded-full bg-primary/10 text-primary flex items-center justify-center font-bold text-xs uppercase overflow-hidden border border-outline-variant">
+                  {{ task()?.assignee?.charAt(0) }}
+                </div>
+                <span class="text-xs font-bold text-on-surface">{{ task()?.assignee }}</span>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-4 border-t border-outline-variant/10 pt-4">
+              <div>
+                <span class="text-[9px] uppercase font-semibold text-outline block">Est. Effort</span>
+                <span class="text-xs font-extrabold text-on-surface-variant block mt-0.5">{{ task()?.estimateHours || 12 }} hours</span>
+              </div>
+              <div>
+                <span class="text-[9px] uppercase font-semibold text-outline block">Target Due Date</span>
+                <span class="text-xs font-extrabold text-on-surface-variant block mt-0.5">{{ task()?.dueDate }}</span>
+              </div>
+            </div>
+
+            <!-- Progress Tracker Slider -->
+            <div class="border-t border-outline-variant/10 pt-4 space-y-2">
+              <span class="text-[9px] uppercase font-semibold text-outline block">SLA Execution Progress</span>
+              <div class="flex items-center gap-2">
+                <input type="range" min="0" max="100" [value]="task()?.progress || 0" (input)="updateProgress($any($event.target).value)"
+                       class="w-full h-1 bg-outline-variant/30 rounded-lg appearance-none cursor-pointer accent-primary" />
+                <span class="text-xs font-bold text-on-surface min-w-[28px] text-right">{{ task()?.progress || 0 }}%</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Actions buttons panel -->
+        <div class="bg-surface-container-lowest p-5 rounded-2xl border border-outline-variant/15 shadow-sm space-y-3">
+          <button (click)="duplicateTask()" class="w-full bg-surface-container-high hover:bg-surface-container-highest text-on-surface text-xs font-semibold py-2.5 rounded-xl border border-outline-variant/20 transition-all flex items-center justify-center gap-2 cursor-pointer">
+            <span class="material-symbols-outlined text-sm">content_copy</span>
+            <span>Duplicate Task Key</span>
+          </button>
+
+          <button (click)="setReminder()" class="w-full bg-surface-container-high hover:bg-surface-container-highest text-on-surface text-xs font-semibold py-2.5 rounded-xl border border-outline-variant/20 transition-all flex items-center justify-center gap-2 cursor-pointer">
+            <span class="material-symbols-outlined text-sm">notifications_active</span>
+            <span>Set Operational Reminder</span>
+          </button>
+
+          <div class="border-t border-outline-variant/10 pt-3">
+            <button (click)="deleteTask()" class="w-full bg-error-container/20 hover:bg-error-container/35 text-error text-xs font-bold py-2.5 rounded-xl transition-all flex items-center justify-center gap-2 cursor-pointer">
+              <span class="material-symbols-outlined text-sm">delete</span>
+              <span>Delete Task</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  }
+</div>

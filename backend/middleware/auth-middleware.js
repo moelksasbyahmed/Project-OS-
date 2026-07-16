@@ -1,25 +1,25 @@
 const jwt = require('jsonwebtoken');
 const { User } = require('../models');
 
-const extract_token = (req, next ) => {
-    let token = req.headers.authorization;
- if (!token) {
-      return next(new Error('No token provided'));
- }
-      if (token.startsWith('Bearer ')) { 
-        token = token.slice(7, token.length).trimLeft(); 
-         console.log("token", token)
-      }
-     
-      else {
-        return next (new Error('Invalid token format')) ; 
-      }
-      return token; 
-    
+const extract_token = (req, next) => {
+  let token = req.headers.authorization;
+  if (!token) {
+    return next(new Error('No token provided'));
+  }
+  if (token.startsWith('Bearer ')) {
+    token = token.slice(7, token.length).trimLeft();
+    // console.log("token", token)
+  }
+
+  else {
+    return next(new Error('Invalid token format'));
+  }
+  return token;
 
 
-      
- }
+
+
+}
 
 
 

@@ -1,0 +1,144 @@
+<div class="space-y-8 font-sans">
+  <!-- Title Block -->
+  <div class="flex justify-between items-center">
+    <div>
+      <h2 class="text-3xl font-extrabold text-on-surface tracking-tight">Access Management</h2>
+      <p class="text-xs text-outline mt-1">Designate system security clearances, configure granular permission matrices, and audit user roles.</p>
+    </div>
+  </div>
+
+  <!-- Access Definition Cards -->
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+    @for (def of roleDefinitions(); track def.roleName) {
+      <div class="bg-surface-container-lowest p-5 rounded-2xl border border-outline-variant/15 shadow-sm space-y-4 flex flex-col justify-between">
+        <div class="space-y-3">
+          <div class="flex items-center gap-3">
+            <span class="material-symbols-outlined text-primary bg-primary/10 p-2.5 rounded-xl text-lg">{{ def.icon }}</span>
+            <div class="text-left">
+              <h4 class="text-sm font-bold text-on-surface leading-none">{{ def.roleName }}</h4>
+              <span class="text-[9px] text-outline uppercase font-semibold tracking-wider block mt-1">Clearance Tier {{ def.tier }}</span>
+            </div>
+          </div>
+          <p class="text-xs text-outline leading-relaxed text-left">
+            {{ def.description }}
+          </p>
+        </div>
+
+        <!-- Meta details -->
+        <div class="border-t border-outline-variant/10 pt-4 mt-2 text-left">
+          <span class="text-[9px] text-outline uppercase font-bold">Active SLA Permissions</span>
+          <p class="text-xs font-semibold text-on-surface mt-1 flex items-center gap-1">
+            <span class="w-1.5 h-1.5 bg-green-500 rounded-full"></span>
+            <span>{{ def.allowedCount }} system endpoints unlocked</span>
+          </p>
+        </div>
+      </div>
+    }
+  </div>
+
+  <!-- Permission Matrix Table -->
+  <div class="bg-surface-container-lowest rounded-2xl border border-outline-variant/15 shadow-sm overflow-hidden flex flex-col text-left">
+    <div class="p-6 border-b border-outline-variant/10">
+      <h3 class="text-base font-bold text-on-surface">Granular Permission Matrix</h3>
+      <p class="text-[11px] text-outline mt-0.5">Comprehensive audit matrix mapping functional operations to enterprise roles.</p>
+    </div>
+
+    <div class="overflow-x-auto">
+      <table class="w-full text-left border-collapse">
+        <thead>
+          <tr class="bg-surface-container-low/40 text-[9px] text-outline font-bold uppercase tracking-wider border-b border-outline-variant/10">
+            <th class="py-3.5 px-6">System Operation / Endpoint</th>
+            <th class="py-3.5 px-6 text-center">Project Manager</th>
+            <th class="py-3.5 px-6 text-center">Engineer</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-outline-variant/10 text-xs">
+          @for (row of matrixRows(); track row.name) {
+            <tr class="hover:bg-surface-container-low/30 transition-all">
+              <td class="py-3.5 px-6 font-medium text-on-surface">
+                <div class="flex flex-col">
+                  <span>{{ row.name }}</span>
+                  <span class="text-[9px] text-outline font-normal mt-0.5">{{ row.description }}</span>
+                </div>
+              </td>
+              <td class="py-3.5 px-6 text-center">
+                <span class="material-symbols-outlined" [class.text-green-600]="row.manager" [class.text-outline-variant]="!row.manager">
+                  {{ row.manager ? 'check_circle' : 'cancel' }}
+                </span>
+              </td>
+              <td class="py-3.5 px-6 text-center">
+                <span class="material-symbols-outlined" [class.text-green-600]="row.engineer" [class.text-outline-variant]="!row.engineer">
+                  {{ row.engineer ? 'check_circle' : 'cancel' }}
+                </span>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Role Assignment Hub (Interactive dropdowns!) -->
+  <div class="bg-surface-container-lowest rounded-2xl border border-outline-variant/15 shadow-sm overflow-hidden flex flex-col text-left animate-fade-in">
+    <div class="p-6 border-b border-outline-variant/10 flex justify-between items-center flex-wrap gap-4">
+      <div>
+        <h3 class="text-base font-bold text-on-surface">Role Assignment Hub</h3>
+        <p class="text-[11px] text-outline mt-0.5">Dynamically elevate user permissions and override cluster role configurations.</p>
+      </div>
+      <button (click)="loadAllSquadMembers()" class="bg-primary/15 hover:bg-primary/25 text-primary font-bold py-2 px-4 rounded-xl text-xs cursor-pointer transition-all flex items-center gap-1.5">
+        <span class="material-symbols-outlined text-sm">download_done</span>
+        <span>Sync All Members</span>
+      </button>
+    </div>
+
+    <div class="overflow-x-auto">
+      <table class="w-full text-left border-collapse">
+        <thead>
+          <tr class="bg-surface-container-low/40 text-[9px] text-outline font-bold uppercase tracking-wider border-b border-outline-variant/10">
+            <th class="py-3 px-6">Full Name / Details</th>
+            <th class="py-3 px-6">Corporate Email</th>
+            <th class="py-3 px-6">Assigned Access Level</th>
+            <th class="py-3 px-6 text-right">Clearance Verification</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-outline-variant/10 text-xs">
+          @for (u of state.usersForRoles(); track u.email) {
+            <tr class="hover:bg-surface-container-low/30 transition-all">
+              <!-- Name & Title -->
+              <td class="py-3.5 px-6">
+                <div class="flex items-center gap-3">
+                  <div class="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center text-xs font-bold text-primary">
+                    {{ u.name.substring(0, 2).toUpperCase() }}
+                  </div>
+                  <div class="text-left">
+                    <h4 class="text-xs font-bold text-on-surface leading-none">{{ u.name }}</h4>
+                    <span class="text-[9px] text-outline mt-1 block leading-none">{{ u.title }}</span>
+                  </div>
+                </div>
+              </td>
+
+              <!-- Email -->
+              <td class="py-3.5 px-6 font-mono text-outline text-[11px]">{{ u.email }}</td>
+
+              <!-- Select Role Dropdown (Interactive!) -->
+              <td class="py-3.5 px-6">
+                <select [ngModel]="u.currentRole" (ngModelChange)="updateRoleAssignment(u.email, $event)"
+                        class="bg-surface-container-low border border-outline-variant/30 rounded-xl px-3 py-1.5 text-xs text-on-surface outline-none focus:border-primary cursor-pointer">
+                  <option value="Project Manager">Project Manager</option>
+                  <option value="Engineer">Engineer</option>
+                </select>
+              </td>
+
+              <!-- Verification check -->
+              <td class="py-3.5 px-6 text-right">
+                <span class="inline-flex items-center gap-1 text-[10px] bg-green-50 text-green-700 font-bold px-2 py-0.5 rounded-full uppercase tracking-wider">
+                  <span class="material-symbols-outlined text-xs">verified</span> Verified
+                </span>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

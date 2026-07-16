@@ -1,0 +1,176 @@
+<div class="max-w-4xl mx-auto space-y-8 font-sans">
+  <!-- Breadcrumb Header -->
+  <div class="flex items-center gap-2 text-xs text-outline font-semibold">
+    <a routerLink="/projects" class="hover:text-primary transition-colors">Portfolios</a>
+    <span class="material-symbols-outlined text-[12px]">chevron_right</span>
+    <span class="text-on-surface">Create New Portfolio</span>
+  </div>
+
+  <div class="flex justify-between items-center">
+    <div>
+      <h2 class="text-3xl font-extrabold text-on-surface tracking-tight">Deploy Project Portfolio</h2>
+      <p class="text-xs text-outline mt-1">Configure an isolated enterprise coordination track with customized SLA parameters.</p>
+    </div>
+  </div>
+
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+    <!-- Main Form Area -->
+    <div class="lg:col-span-2 bg-surface-container-lowest p-6 rounded-2xl border border-outline-variant/15 shadow-sm space-y-6">
+      <form [formGroup]="projectForm" (ngSubmit)="onSubmit()" class="space-y-5">
+        <!-- Project Name -->
+        <div>
+          <span class="block text-xs font-bold uppercase tracking-wider text-outline mb-1.5">Project Name</span>
+          <input type="text" formControlName="name" placeholder="Quantum Ledger Core"
+                 class="w-full bg-surface-container-low border border-outline-variant/30 rounded-xl px-4 py-2.5 text-xs text-on-surface focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all" />
+          @if (projectForm.get('name')?.touched && projectForm.get('name')?.invalid) {
+            <p class="text-red-500 text-[10px] mt-1 flex items-center gap-1">
+              <span class="material-symbols-outlined text-[12px]">error</span> Project name is required.
+            </p>
+          }
+        </div>
+
+        <!-- Description -->
+        <div>
+          <span class="block text-xs font-bold uppercase tracking-wider text-outline mb-1.5">Project Description</span>
+          <textarea formControlName="description" rows="4" placeholder="Briefly describe the business goals, deployment architecture, and target KPIs..."
+                    class="w-full bg-surface-container-low border border-outline-variant/30 rounded-xl px-4 py-2.5 text-xs text-on-surface focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all resize-none"></textarea>
+          @if (projectForm.get('description')?.touched && projectForm.get('description')?.invalid) {
+            <p class="text-red-500 text-[10px] mt-1 flex items-center gap-1">
+              <span class="material-symbols-outlined text-[12px]">error</span> Description is required (min 15 chars).
+            </p>
+          }
+        </div>
+
+        <!-- Manager & Classification Grid -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <span class="block text-xs font-bold uppercase tracking-wider text-outline mb-1.5">Portfolio Manager</span>
+            <input type="text" readonly [value]="state.profile()?.name || 'Current User'"
+                   class="w-full bg-surface-container-low/60 border border-outline-variant/30 rounded-xl px-4 py-2.5 text-xs text-outline outline-none cursor-not-allowed" />
+          </div>
+
+          <div>
+            <span class="block text-xs font-bold uppercase tracking-wider text-outline mb-1.5">Classification Level</span>
+            <select formControlName="securityLevel"
+                    class="w-full bg-surface-container-low border border-outline-variant/30 rounded-xl px-3 py-2.5 text-xs text-on-surface focus:border-primary outline-none transition-all">
+              <option value="Public">Public (Unrestricted)</option>
+              <option value="Internal Only">Internal Only</option>
+              <option value="Restricted">Restricted (Highly confidential)</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Date range picker -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <span class="block text-xs font-bold uppercase tracking-wider text-outline mb-1.5">Target Start Date</span>
+            <input type="date" formControlName="startDate"
+                   class="w-full bg-surface-container-low border border-outline-variant/30 rounded-xl px-3 py-2 text-xs text-on-surface focus:border-primary outline-none transition-all" />
+          </div>
+
+          <div>
+            <span class="block text-xs font-bold uppercase tracking-wider text-outline mb-1.5">Target Completion Date</span>
+            <input type="date" formControlName="endDate"
+                   class="w-full bg-surface-container-low border border-outline-variant/30 rounded-xl px-3 py-2 text-xs text-on-surface focus:border-primary outline-none transition-all" />
+          </div>
+        </div>
+        @if (projectForm.errors?.['dateRangeInvalid']) {
+          <p class="text-red-500 text-[10px] mt-1 flex items-center gap-1">
+            <span class="material-symbols-outlined text-[12px]">error</span> End date must be greater than or equal to start date.
+          </p>
+        }
+
+        <!-- Team Assignment input chips -->
+        <div class="space-y-2">
+          <span class="block text-xs font-bold uppercase tracking-wider text-outline">Colleague Assignment</span>
+          <div class="flex flex-wrap items-center gap-2 p-2 bg-surface-container-low border border-outline-variant/20 rounded-xl min-h-[44px]">
+            @for (memberId of selectedTeam(); track memberId) {
+              <span class="inline-flex items-center gap-1 bg-primary/10 text-primary text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wider">
+                <span>{{ getEngineerName(memberId) }}</span>
+                <button type="button" (click)="removeTeamChip(memberId)" class="hover:text-red-500">
+                  <span class="material-symbols-outlined text-[12px] block">close</span>
+                </button>
+              </span>
+            }
+            <select #engSelect (change)="addTeamChip(engSelect.value); engSelect.value = ''"
+                    class="bg-transparent border-none text-xs outline-none text-outline cursor-pointer focus:ring-0">
+              <option value="">+ Add Colleague...</option>
+              @for (eng of state.engineers(); track eng.id) {
+                <option [value]="eng.id">{{ eng.name }}</option>
+              }
+            </select>
+          </div>
+          <span class="text-[9px] text-outline italic block">Colleagues will receive slack/email workspace integrations.</span>
+        </div>
+
+        <!-- Form buttons -->
+        <div class="flex justify-end gap-3 pt-4 border-t border-outline-variant/10">
+          <a routerLink="/projects" class="bg-surface-container-high hover:bg-surface-container-highest text-on-surface font-semibold py-2.5 px-5 rounded-xl text-xs border border-outline-variant/20 transition-all">
+            Cancel
+          </a>
+          <button type="submit" [disabled]="projectForm.invalid"
+                  class="bg-primary hover:bg-primary/90 disabled:opacity-40 text-white font-bold py-2.5 px-5 rounded-xl text-xs flex items-center gap-1.5 shadow-md hover:shadow-primary/25 cursor-pointer transition-all">
+            <span class="material-symbols-outlined text-sm">save</span>
+            <span>Deploy Portfolio</span>
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Configuration Summary Side Panel -->
+    <div class="space-y-6">
+      <div class="bg-surface-container-lowest p-5 rounded-2xl border border-outline-variant/15 shadow-sm space-y-4">
+        <span class="text-[10px] uppercase font-bold tracking-wider text-primary bg-primary/10 px-2.5 py-1 rounded-full">
+          SLA Schema Summary
+        </span>
+
+        <div class="space-y-4 text-left">
+          <div>
+            <span class="text-[9px] uppercase font-semibold text-outline block leading-none">Portfolio Title</span>
+            <p class="text-sm font-extrabold text-on-surface mt-1 truncate">{{ projectForm.value.name || 'Untitled Project' }}</p>
+          </div>
+
+          <div>
+            <span class="text-[9px] uppercase font-semibold text-outline block leading-none">Scope Summary</span>
+            <p class="text-xs text-on-surface-variant mt-1.5 line-clamp-3 leading-relaxed">
+              {{ projectForm.value.description || 'No description provided yet...' }}
+            </p>
+          </div>
+
+          <div class="grid grid-cols-2 gap-4 border-t border-outline-variant/10 pt-4">
+            <div>
+              <span class="text-[9px] uppercase font-semibold text-outline block">Manager</span>
+              <span class="text-xs font-bold text-on-surface-variant block mt-0.5">{{ state.profile()?.name }}</span>
+            </div>
+            <div>
+              <span class="text-[9px] uppercase font-semibold text-outline block">Security</span>
+              <span class="text-xs font-bold text-on-surface-variant block mt-0.5">{{ projectForm.value.securityLevel }}</span>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-2 gap-4 border-t border-outline-variant/10 pt-4">
+            <div>
+              <span class="text-[9px] uppercase font-semibold text-outline block">Start</span>
+              <span class="text-xs font-bold text-on-surface-variant block mt-0.5">{{ projectForm.value.startDate || 'Not specified' }}</span>
+            </div>
+            <div>
+              <span class="text-[9px] uppercase font-semibold text-outline block">Target End</span>
+              <span class="text-xs font-bold text-on-surface-variant block mt-0.5">{{ projectForm.value.endDate || 'Not specified' }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Alert Note -->
+      <div class="bg-amber-50 border border-amber-200/50 p-4 rounded-xl flex gap-3 text-left">
+        <span class="material-symbols-outlined text-amber-600">report</span>
+        <div>
+          <p class="text-xs font-bold text-amber-800">Operational Compliance Notice</p>
+          <p class="text-[10px] text-amber-700/80 leading-relaxed mt-1">
+            Creating this project will register key ledger parameters in active Slack hooks. Security clearances will instantly propagate.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

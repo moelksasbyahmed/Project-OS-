@@ -19,7 +19,7 @@ const connectDatabase = async () => {
     mongoose.connection.on('disconnected', () => {
       console.log('MongoDB disconnected');
     });
- console.log(`Connecting to MongoDB at ${MONGO_URI}...`); 
+ 
 
     await mongoose.connect(MONGO_URI,{
     

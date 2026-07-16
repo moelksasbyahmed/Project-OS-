@@ -1,0 +1,174 @@
+<div class="max-w-4xl mx-auto space-y-8 font-sans">
+  <!-- Breadcrumb Header -->
+  <div class="flex items-center gap-2 text-xs text-outline font-semibold">
+    <a routerLink="/projects" class="hover:text-primary transition-colors">Portfolios</a>
+    <span class="material-symbols-outlined text-[12px]">chevron_right</span>
+    <a [routerLink]="['/projects', projectId()]" class="hover:text-primary transition-colors">{{ project()?.name || 'Details' }}</a>
+    <span class="material-symbols-outlined text-[12px]">chevron_right</span>
+    <span class="text-on-surface">Allocate Specialists</span>
+  </div>
+
+  <div class="flex justify-between items-center">
+    <div>
+      <h2 class="text-3xl font-extrabold text-on-surface tracking-tight">Allocate Specialists</h2>
+      <p class="text-xs text-outline mt-1">Search, evaluate, and subscribe colleagues to the {{ project()?.name }} deployment timeline.</p>
+    </div>
+  </div>
+
+  <!-- Resource Allocation Alert -->
+  <div class="bg-amber-50 border border-amber-200/50 p-4 rounded-2xl flex items-start gap-3.5 text-left">
+    <span class="material-symbols-outlined text-amber-600 bg-amber-100 p-1.5 rounded-lg text-lg">warning</span>
+    <div class="flex-1">
+      <h4 class="text-xs font-bold text-amber-800">Resource Capacity Warning</h4>
+      <p class="text-[10px] text-amber-700/80 leading-relaxed mt-1">
+        Jordan Okafor is currently allocated at 115% bandwidth in associated clusters. Adding them may require rescheduling tasks.
+      </p>
+    </div>
+  </div>
+
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+    <!-- Main Panel: Candidate Search (Col-span 2) -->
+    <div class="lg:col-span-2 space-y-6">
+      <div class="bg-surface-container-lowest p-6 rounded-2xl border border-outline-variant/15 shadow-sm space-y-6">
+        <!-- Search & Department filters -->
+        <div class="flex flex-col sm:flex-row gap-3">
+          <div class="relative flex-1">
+            <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline text-sm">search</span>
+            <input type="text" [(ngModel)]="searchQuery" placeholder="Search colleagues by name or role..."
+                   class="w-full bg-surface-container-low border border-outline-variant/30 rounded-xl pl-9 pr-4 py-2 text-xs text-on-surface outline-none focus:border-primary transition-all" />
+          </div>
+          <div class="relative">
+            <select [(ngModel)]="deptFilter"
+                    class="appearance-none bg-surface-container-low border border-outline-variant/30 rounded-xl pl-4 pr-8 py-2 text-xs text-on-surface outline-none focus:border-primary transition-all cursor-pointer">
+              <option value="All">All Squads</option>
+              <option value="Engineering">Engineering</option>
+              <option value="Design">Design</option>
+              <option value="Management">Management</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Candidate Cards List -->
+        <div class="space-y-4">
+          @for (c of filteredCandidates(); track c.id) {
+            <div class="flex items-center justify-between p-4 rounded-xl border border-outline-variant/10 hover:bg-surface-container-low/30 transition-all">
+              <div class="flex items-center gap-3">
+                <!-- Photo -->
+                <div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-xs font-bold text-primary">
+                  {{ c.name.substring(0, 2).toUpperCase() }}
+                </div>
+                <!-- Details -->
+                <div class="text-left">
+                  <div class="flex items-center gap-2">
+                    <h4 class="text-xs font-bold text-on-surface leading-none">{{ c.name }}</h4>
+                    <span class="text-[8px] bg-outline-variant/20 text-outline px-1.5 py-0.5 rounded font-bold uppercase tracking-wider">
+                      {{ c.department }}
+                    </span>
+                  </div>
+                  <p class="text-[10px] text-outline mt-1">{{ c.title }}</p>
+                </div>
+              </div>
+
+              <!-- Allocation & Action -->
+              <div class="flex items-center gap-6">
+                <div class="text-right hidden sm:block">
+                  <span class="text-[9px] uppercase font-bold text-outline">Bandwidth Allocation</span>
+                  <div class="flex items-center gap-2 mt-1">
+                    <div class="w-16 bg-outline-variant/20 h-1 rounded-full overflow-hidden">
+                      <div class="h-full rounded-full"
+                           [style.width.%]="c.currentAllocation"
+                           [class.bg-green-500]="c.currentAllocation < 80"
+                           [class.bg-amber-500]="c.currentAllocation >= 80 && c.currentAllocation <= 100"
+                           [class.bg-red-500]="c.currentAllocation > 100">
+                      </div>
+                    </div>
+                    <span class="text-[10px] font-bold" [class.text-red-500]="c.currentAllocation > 100">{{ c.currentAllocation }}%</span>
+                  </div>
+                </div>
+
+                @if (isCandidateSelected(c.id)) {
+                  <button (click)="deselectCandidate(c.id)" class="bg-red-50 hover:bg-red-100 text-red-600 font-bold p-2 rounded-xl text-xs flex items-center justify-center cursor-pointer transition-all">
+                    <span class="material-symbols-outlined">remove_circle</span>
+                  </button>
+                } @else {
+                  <button (click)="selectCandidate(c)" class="bg-primary/10 hover:bg-primary/20 text-primary font-bold p-2 rounded-xl text-xs flex items-center justify-center cursor-pointer transition-all">
+                    <span class="material-symbols-outlined">add_circle</span>
+                  </button>
+                }
+              </div>
+            </div>
+          }
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Side Panel: Selected Allocation Summary -->
+    <div class="space-y-6">
+      <div class="bg-surface-container-lowest p-6 rounded-2xl border border-outline-variant/15 shadow-sm space-y-6 flex flex-col justify-between">
+        <div class="space-y-4">
+          <span class="text-[10px] uppercase font-bold tracking-wider text-primary bg-primary/10 px-2.5 py-1 rounded-full">
+            Deployment Subscription
+          </span>
+
+          @if (selectedCandidates().length === 0) {
+            <div class="p-8 text-center text-outline border border-dashed border-outline-variant/20 rounded-xl">
+              <span class="material-symbols-outlined text-2xl">group_add</span>
+              <p class="text-[10px] mt-1">No specialists added to selection pool.</p>
+            </div>
+          } @else {
+            <div class="space-y-4 pt-2">
+              @for (sc of selectedCandidates(); track sc.id) {
+                <div class="p-3 bg-surface-container-low rounded-xl space-y-3 border border-outline-variant/10 text-left">
+                  <div class="flex items-center gap-2.5">
+                    <div class="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center text-[10px] font-bold text-primary">
+                      {{ sc.name.substring(0, 2).toUpperCase() }}
+                    </div>
+                    <span class="text-xs font-bold text-on-surface">{{ sc.name }}</span>
+                  </div>
+
+                  <!-- Interactive Role Selector Dropdown -->
+                  <div>
+                    <span class="block text-[8px] uppercase font-semibold text-outline mb-1">Assigned Scope Role</span>
+                    <select [(ngModel)]="sc.role" (change)="updateRole(sc.id, sc.role)"
+                            class="w-full bg-surface-container-lowest border border-outline-variant/30 rounded-lg px-2.5 py-1.5 text-[10px] font-semibold text-on-surface outline-none focus:border-primary cursor-pointer">
+                      <option value="Project Manager">Project Manager (Full Access)</option>
+                      <option value="Editor">Editor (Read/Write)</option>
+                      <option value="Viewer">Viewer (Read Only)</option>
+                    </select>
+                  </div>
+                </div>
+              }
+            </div>
+          }
+        </div>
+
+        <!-- Commit Buttons -->
+        <div class="border-t border-outline-variant/10 pt-4 mt-4 space-y-3">
+          <button (click)="confirmAllocation()" [disabled]="selectedCandidates().length === 0"
+                  class="w-full bg-primary hover:bg-primary/90 disabled:opacity-40 text-white font-bold py-2.5 rounded-xl text-xs shadow-md cursor-pointer transition-all flex items-center justify-center gap-1.5">
+            <span class="material-symbols-outlined text-sm">task_alt</span>
+            <span>Confirm Allocations</span>
+          </button>
+          <a [routerLink]="['/projects', projectId()]" class="w-full bg-surface-container-high hover:bg-surface-container-highest text-on-surface font-semibold py-2.5 rounded-xl text-xs block text-center border border-outline-variant/20 transition-all">
+            Cancel
+          </a>
+        </div>
+      </div>
+
+      <!-- Project Health Panel -->
+      <div class="bg-surface-container-lowest p-5 rounded-2xl border border-outline-variant/15 shadow-sm text-left space-y-3">
+        <h4 class="text-xs font-bold text-on-surface">Target Track Balance</h4>
+        <div class="space-y-2 text-[10px]">
+          <div class="flex justify-between">
+            <span class="text-outline">Allocated Heads</span>
+            <span class="font-bold text-on-surface">{{ (project()?.teamMembers?.length || 0) + selectedCandidates().length }} specialists</span>
+          </div>
+          <div class="flex justify-between">
+            <span class="text-outline">Specialist Balance</span>
+            <span class="font-bold text-green-600 uppercase">Highly stable</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

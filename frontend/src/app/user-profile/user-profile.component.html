@@ -1,0 +1,218 @@
+<div class="space-y-8 font-sans">
+  <!-- Welcome block -->
+  <div>
+    <h2 class="text-3xl font-extrabold text-on-surface tracking-tight">Specialist Profile</h2>
+    <p class="text-xs text-outline mt-1">Manage personal enterprise credentials, edit communications metadata, and audit contribution indexes.</p>
+  </div>
+
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+    <!-- Profile Card & Charts Column -->
+    <div class="space-y-6">
+      <!-- Professional visual card -->
+      <div class="bg-surface-container-lowest rounded-2xl border border-outline-variant/15 shadow-sm p-6 text-center space-y-4 relative overflow-hidden flex flex-col justify-between">
+        <div class="absolute top-0 inset-x-0 h-20 bg-gradient-to-r from-primary/20 to-tertiary/20"></div>
+
+        <div class="space-y-4 pt-6 relative z-10">
+          <!-- Headshot replaced with text initials -->
+          <div class="w-24 h-24 rounded-full border-4 border-surface shadow-md bg-primary/10 flex items-center justify-center text-2xl font-bold text-primary mx-auto">
+            {{ state.profile()?.name?.substring(0, 2)?.toUpperCase() || 'SP' }}
+          </div>
+
+          <!-- Name & Title -->
+          <div class="text-center">
+            <h3 class="text-lg font-bold text-on-surface">{{ state.profile()?.name || 'Specialist' }}</h3>
+            <p class="text-xs text-outline mt-0.5">Software Specialist</p>
+          </div>
+
+          <!-- Metadata logs list -->
+          <div class="divide-y divide-outline-variant/10 text-left text-[11px] pt-4 space-y-2 text-outline">
+            <div class="flex justify-between py-1.5">
+              <span>Clearance Clearance</span>
+              <span class="font-bold text-on-surface">{{ state.profile()?.role || 'user' }}</span>
+            </div>
+            <div class="flex justify-between py-1.5">
+              <span>MFA Shield Status</span>
+              <span class="font-bold text-green-600 flex items-center gap-1">
+                <span class="material-symbols-outlined text-xs">shield</span>
+                <span>{{ mfaEnabled() ? 'ENABLED' : 'DISABLED' }}</span>
+              </span>
+            </div>
+            <div class="flex justify-between py-1.5">
+              <span>Active Registration</span>
+              <span class="font-bold text-on-surface">Jan 12, 2026</span>
+            </div>
+            <div class="flex justify-between py-1.5">
+              <span>Audit Last Login</span>
+              <span class="font-bold text-on-surface">{{ state.profile()?.lastlogin || 'Just Now' }}</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Double metrics -->
+        <div class="grid grid-cols-2 gap-4 mt-6 pt-4 border-t border-outline-variant/10">
+          <div class="text-center bg-surface-container-low/50 p-3 rounded-xl">
+            <span class="text-[9px] uppercase font-bold text-outline">Portfolios Managed</span>
+            <p class="text-lg font-extrabold text-primary mt-0.5">{{ state.projects().length }}</p>
+          </div>
+          <div class="text-center bg-surface-container-low/50 p-3 rounded-xl">
+            <span class="text-[9px] uppercase font-bold text-outline">SLA Success Index</span>
+            <p class="text-lg font-extrabold text-green-600 mt-0.5">98%</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Interactive Contribution Charts -->
+      <div class="bg-surface-container-lowest p-6 rounded-2xl border border-outline-variant/15 shadow-sm space-y-4 text-left">
+        <h4 class="text-xs font-bold text-on-surface uppercase tracking-wider">Operational Indexes</h4>
+        <div class="space-y-4">
+          <!-- Score 1 -->
+          <div class="space-y-1.5">
+            <div class="flex justify-between text-[11px]">
+              <span class="text-outline">Project Contribution Rate</span>
+              <span class="font-bold text-on-surface">84%</span>
+            </div>
+            <div class="w-full bg-outline-variant/20 h-1.5 rounded-full overflow-hidden">
+              <div class="bg-primary h-full rounded-full" style="width: 84%"></div>
+            </div>
+          </div>
+
+          <!-- Score 2 -->
+          <div class="space-y-1.5">
+            <div class="flex justify-between text-[11px]">
+              <span class="text-outline">Consensus Collaboration Score</span>
+              <span class="font-bold text-on-surface">92%</span>
+            </div>
+            <div class="w-full bg-outline-variant/20 h-1.5 rounded-full overflow-hidden">
+              <div class="bg-green-600 h-full rounded-full" style="width: 92%"></div>
+            </div>
+          </div>
+
+          <!-- Score 3 -->
+          <div class="space-y-1.5">
+            <div class="flex justify-between text-[11px]">
+              <span class="text-outline">Sprint Activity Pulse</span>
+              <span class="font-bold text-on-surface">78%</span>
+            </div>
+            <div class="w-full bg-outline-variant/20 h-1.5 rounded-full overflow-hidden">
+              <div class="bg-amber-500 h-full rounded-full" style="width: 78%"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Personal Details Editable Form (Col-span 2) -->
+    <div class="lg:col-span-2 space-y-6 text-left">
+      <div class="bg-surface-container-lowest p-6 rounded-2xl border border-outline-variant/15 shadow-sm space-y-6">
+        <h3 class="text-base font-bold text-on-surface border-b border-outline-variant/10 pb-4">Personal Details</h3>
+
+        <form [formGroup]="profileForm" (ngSubmit)="onSubmit()" class="space-y-5">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <!-- Full Name -->
+            <div>
+              <span class="block text-xs font-bold uppercase tracking-wider text-outline mb-1.5">Full Name</span>
+              <input type="text" formControlName="name"
+                     class="w-full bg-surface-container-low border border-outline-variant/30 rounded-xl px-4 py-2.5 text-xs text-on-surface focus:border-primary outline-none transition-all" />
+            </div>
+
+            <!-- Professional Title -->
+            <div>
+              <span class="block text-xs font-bold uppercase tracking-wider text-outline mb-1.5">Professional Title</span>
+              <input type="text" formControlName="title"
+                     class="w-full bg-surface-container-low border border-outline-variant/30 rounded-xl px-4 py-2.5 text-xs text-on-surface focus:border-primary outline-none transition-all" />
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <!-- Corporate Email -->
+            <div>
+              <span class="block text-xs font-bold uppercase tracking-wider text-outline mb-1.5">Corporate Email</span>
+              <input type="email" formControlName="email"
+                     class="w-full bg-surface-container-low border border-outline-variant/30 rounded-xl px-4 py-2.5 text-xs text-on-surface focus:border-primary outline-none transition-all" />
+            </div>
+
+            <!-- Communications Phone -->
+            <div>
+              <span class="block text-xs font-bold uppercase tracking-wider text-outline mb-1.5">Communications Phone</span>
+              <input type="text" formControlName="phone"
+                     class="w-full bg-surface-container-low border border-outline-variant/30 rounded-xl px-4 py-2.5 text-xs text-on-surface focus:border-primary outline-none transition-all" />
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <!-- GitHub -->
+            <div>
+              <span class="block text-xs font-bold uppercase tracking-wider text-outline mb-1.5">GitHub Developer Key</span>
+              <input type="text" formControlName="github"
+                     class="w-full bg-surface-container-low border border-outline-variant/30 rounded-xl px-4 py-2.5 text-xs text-on-surface focus:border-primary outline-none transition-all" />
+            </div>
+
+            <!-- LinkedIn -->
+            <div>
+              <span class="block text-xs font-bold uppercase tracking-wider text-outline mb-1.5">LinkedIn Profile Path</span>
+              <input type="text" formControlName="linkedin"
+                     class="w-full bg-surface-container-low border border-outline-variant/30 rounded-xl px-4 py-2.5 text-xs text-on-surface focus:border-primary outline-none transition-all" />
+            </div>
+          </div>
+
+          <!-- Interactive Switches (MFA & Alerts) -->
+          <div class="p-4 bg-surface-container-low/50 border border-outline-variant/10 rounded-2xl space-y-4">
+            <span class="text-[10px] uppercase font-extrabold text-outline tracking-wider block">Security Settings</span>
+            
+            <div class="flex items-center justify-between">
+              <div class="text-left">
+                <p class="text-xs font-bold text-on-surface">Enable Multi-Factor Authentication (MFA)</p>
+                <p class="text-[10px] text-outline mt-0.5">Use biometric keys to harden cluster coordinate actions.</p>
+              </div>
+              <!-- Switch -->
+              <button type="button" (click)="toggleMfa()"
+                      [class.bg-primary]="mfaEnabled()"
+                      [class.bg-outline-variant]="!mfaEnabled()"
+                      class="w-10 h-6 p-0.5 rounded-full transition-colors outline-none cursor-pointer relative flex items-center">
+                <span [class.translate-x-4.5]="mfaEnabled()"
+                      [class.translate-x-0]="!mfaEnabled()"
+                      class="w-5 h-5 bg-white rounded-full shadow-sm transition-transform block"></span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Action button -->
+          <div class="flex justify-end pt-4 border-t border-outline-variant/10">
+            <button type="submit" [disabled]="profileForm.invalid"
+                    class="bg-primary hover:bg-primary/90 disabled:opacity-40 text-white font-bold py-2.5 px-6 rounded-xl text-xs flex items-center gap-1.5 cursor-pointer shadow-md transition-all">
+              <span class="material-symbols-outlined text-sm">done_all</span>
+              <span>Commit Personal Details</span>
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Recent completed projects list -->
+      <div class="bg-surface-container-lowest p-6 rounded-2xl border border-outline-variant/15 shadow-sm space-y-4">
+        <h3 class="text-base font-bold text-on-surface border-b border-outline-variant/10 pb-3">SLA Milestones Completed</h3>
+        
+        <div class="divide-y divide-outline-variant/10">
+          <div class="py-3 flex justify-between items-center">
+            <div>
+              <h4 class="text-xs font-bold text-on-surface">Security Audit V2</h4>
+              <p class="text-[10px] text-outline mt-0.5">Deployed consensus tests and vulnerability remediation.</p>
+            </div>
+            <span class="text-[10px] bg-green-100 text-green-800 font-bold px-2 py-0.5 rounded-full uppercase tracking-wider">
+              SLA Passed
+            </span>
+          </div>
+
+          <div class="py-3 flex justify-between items-center">
+            <div>
+              <h4 class="text-xs font-bold text-on-surface">External API Gateway V1</h4>
+              <p class="text-[10px] text-outline mt-0.5">Unified OAuth2 clients credentials rate limiter proxies.</p>
+            </div>
+            <span class="text-[10px] bg-green-100 text-green-800 font-bold px-2 py-0.5 rounded-full uppercase tracking-wider">
+              SLA Passed
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
