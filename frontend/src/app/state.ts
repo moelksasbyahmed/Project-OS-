@@ -52,12 +52,12 @@ export interface Task {
   engineersAssigned: (string | { _id: string; name: string; email: string })[];
   status: 'not_started' | 'in_progress' | 'completed';
   project: string | { _id: string; name: string; status: string };
-  projectId?: string; // helper for UI filters
-  projectName?: string; // helper for UI filters
-  dueDate?: string; // helper
-  estimateHours?: number; // helper
-  sprint?: string; // helper
-  progress?: number; // helper (derived from status)
+  projectId?: string; 
+  projectName?: string; 
+  dueDate?: string;
+  estimateHours?: number; 
+  sprint?: string; 
+  progress?: number; 
   priority?: 'low' | 'medium' | 'high';
   assignee?: string;
 }
@@ -91,20 +91,19 @@ export class State {
   private http = inject(HttpClient);
   private baseUrl = 'http://localhost:5000/api';
 
-  // Auth Session State
+  
   isAuthenticated = signal<boolean>(false);
   currentUserRole = signal<string>('');
 
-  // User Profile State
   profile = signal<UserProfile | null>(null);
 
-  // Core collections
+ 
   projects = signal<Project[]>([]);
   tasks = signal<Task[]>([]);
   engineers = signal<Engineer[]>([]);
   usersForRoles = signal<{ name: string; avatar?: string; email: string; title: string; currentRole: string }[]>([]);
 
-  // Computed Properties for dashboard
+ 
   activeProjectsCount = computed(() => this.projects().length);
   completedProjectsCount = computed(() => this.projects().filter(p => p.status === 'completed').length);
   pendingTasksCount = computed(() => this.tasks().filter(t => t.status !== 'completed').length);
@@ -145,7 +144,6 @@ export class State {
           const rawProjects = projectsRes.data || [];
           const engUsers = engineersRes.data || [];
 
-          // Map engineers
           const mappedEngs: Engineer[] = engUsers.map(u => ({
             id: u._id || '',
             name: u.name,
@@ -231,7 +229,7 @@ export class State {
         error: (err) => console.error('Error loading PM initial data', err)
       });
     } else if (role === 'engineer' && userId) {
-      // Load engineer's assignments
+    
       this.http.get<{ data: any }>(`${this.baseUrl}/engineers/${userId}/assignments`).subscribe({
         next: (res) => {
           const assignments = res.data.assignments || {};
@@ -408,7 +406,6 @@ export class State {
   }
 
   updateProfile(profileData: any): Observable<any> {
-    // Backend profile patch unnested parameters: phone, linkedin, github, name
     const payload = {
       name: profileData.name,
       phone: profileData.phone,
@@ -431,7 +428,6 @@ export class State {
   }
 
   updateUserRoleAssignment(email: string, role: string) {
-    // Locally mock role modification display
     this.usersForRoles.update(prev => prev.map(u => u.email === email ? { ...u, currentRole: role } : u));
   }
 

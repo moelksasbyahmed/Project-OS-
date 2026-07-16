@@ -14,9 +14,6 @@ const { protect, authorize } = require('../middleware');
 
 const router = express.Router();
 
-/**
- * Engineer routes.
- */
 router.use(protect, authorize('project_manager'));
 
 router.get('/search/email/:email', findEngineerByEmail);
